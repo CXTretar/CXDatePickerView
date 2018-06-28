@@ -1,5 +1,4 @@
 # CXDatePickerView
-<<<<<<< HEAD
 ![自定义日期选择器](https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/1.png)
 # Install【安装】
 在Podfile文件中添加pod 'CXDatePickerView'，并运行 pod install
@@ -76,6 +75,3 @@ CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDat
 ```
 
 
-=======
--![自定义日期选择器](https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/1.png)
->>>>>>> cbd634613e680fa21aca3f1e0f55219c23eec1aa
