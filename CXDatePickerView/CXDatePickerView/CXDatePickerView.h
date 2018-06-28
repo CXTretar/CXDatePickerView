@@ -34,7 +34,7 @@ typedef NS_ENUM(NSUInteger, CXDateStyle) {
 @property (nonatomic, assign) CGFloat shadeViewAlphaWhenShow; //默认0.5
 
 /**
- *  确定按钮颜色
+ *  头部视图背景颜色
  */
 @property (nonatomic, strong) UIColor *headerViewColor; // 默认白色
 
