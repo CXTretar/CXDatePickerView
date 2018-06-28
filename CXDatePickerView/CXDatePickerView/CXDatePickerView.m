@@ -34,11 +34,10 @@ typedef void(^doneBlock)(NSDate *);
 
 @property (nonatomic, strong) UIView *buttomView;
 @property (nonatomic, strong) UIView *headerView;
-@property (nonatomic, strong) NSLayoutConstraint *bottomConstraint;
 
 @property (nonatomic, strong) UIPickerView *datePicker;
 @property (nonatomic, retain) NSDate *scrollToDate;//滚到指定日期
-@property (nonatomic, strong) doneBlock doneBlock;
+@property (nonatomic, copy) doneBlock doneBlock;
 @property (nonatomic, assign) CXDateStyle datePickerStyle;
 @property (nonatomic, strong) UILabel *showYearView;
 @property (nonatomic, weak) UIButton *confirmButton;
@@ -221,10 +220,8 @@ typedef void(^doneBlock)(NSDate *);
         
         [self setupUI];
         [self defaultConfig];
-        
-        __weak typeof(self) weakSelf = self;
         if (completeBlock) {
-            weakSelf.doneBlock = ^(NSDate *selectDate) {
+            self.doneBlock = ^(NSDate *selectDate) {
                 completeBlock(selectDate);
             };
         }
@@ -267,9 +264,8 @@ typedef void(^doneBlock)(NSDate *);
         
         [self setupUI];
         [self defaultConfig];
-        __weak typeof(self) weakSelf = self;
         if (completeBlock) {
-            weakSelf.doneBlock = ^(NSDate *selectDate) {
+            self.doneBlock = ^(NSDate *selectDate) {
                 completeBlock(selectDate);
             };
         }
@@ -424,17 +420,17 @@ typedef void(^doneBlock)(NSDate *);
 #pragma mark - Action
 - (void)show {
     [[UIApplication sharedApplication].keyWindow addSubview:self];
-    [UIView animateWithDuration:_showAnimationTime animations:^{
-        CGFloat buttomViewHeight = _pickerViewHeight + _topViewHeight;
+    [UIView animateWithDuration:self.showAnimationTime animations:^{
+        CGFloat buttomViewHeight = self.pickerViewHeight + self.topViewHeight;
         self.buttomView.frame = CGRectMake(0, kScreenHeight - buttomViewHeight, kScreenWidth, buttomViewHeight);
-        self.backgroundColor = RGBA(0, 0, 0, _shadeViewAlphaWhenShow);
+        self.backgroundColor = RGBA(0, 0, 0, self.shadeViewAlphaWhenShow);
         [self layoutIfNeeded];
     }];
 }
 
 - (void)dismiss {
-    [UIView animateWithDuration:_showAnimationTime animations:^{
-        CGFloat buttomViewHeight = _pickerViewHeight + _topViewHeight;
+    [UIView animateWithDuration:self.showAnimationTime animations:^{
+        CGFloat buttomViewHeight = self.pickerViewHeight + self.topViewHeight;
         self.buttomView.frame = CGRectMake(0, kScreenHeight, kScreenWidth, buttomViewHeight);
         
         self.backgroundColor = RGBA(0, 0, 0, ShadeViewAlphaWhenHide);
