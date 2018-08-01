@@ -22,7 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSArray *arr = @[@"年-月-日-时-分",@"月-日-时-分",@"年-月-日",@"年-月",@"月-日",@"时-分",@"指定日期2011-11-11 11:11"];
+    NSArray *arr = @[@"年-月-日-时-分",@"月-日-时-分",@"年-月-日",@"日-时-分",@"年-月",@"月-日",@"时-分",@"指定日期2011-11-11 11:11"];
     for (NSInteger i = 0; i < arr.count; i++) {
         UIButton *selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         selectBtn.frame = CGRectMake(20, 40+50*i, self.view.frame.size.width-40, 40);
@@ -93,6 +93,22 @@
             break;
         case 3:
         {
+            //日-时-分
+            CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowDayHourMinute CompleteBlock:^(NSDate *selectDate) {
+                
+                NSString *dateString = [selectDate stringWithFormat:@"d日 HH:mm"];
+                NSLog(@"选择的日期：%@",dateString);
+                [btn setTitle:dateString forState:UIControlStateNormal];
+            }];
+            datepicker.dateLabelColor = randomColor;//年-月-日-时-分 颜色
+            datepicker.datePickerColor = randomColor;//滚轮日期颜色
+            datepicker.doneButtonColor = randomColor;//确定按钮的颜色
+            datepicker.cancelButtonColor = datepicker.doneButtonColor;
+            [datepicker show];
+        }
+            break;
+        case 4:
+        {
             //年-月
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowYearMonth CompleteBlock:^(NSDate *selectDate) {
                 
@@ -109,7 +125,7 @@
             
         }
             break;
-        case 4:
+        case 5:
         {
             //月-日
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowMonthDay CompleteBlock:^(NSDate *selectDate) {
@@ -126,7 +142,7 @@
             
         }
             break;
-        case 5:
+        case 6:
         {
             //时-分
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowHourMinute CompleteBlock:^(NSDate *selectDate) {
@@ -145,7 +161,7 @@
             
         }
             break;
-        case 6:
+        case 7:
         {
             //指定日期2011-11-11 11:11
             NSDateFormatter *minDateFormater = [[NSDateFormatter alloc] init];

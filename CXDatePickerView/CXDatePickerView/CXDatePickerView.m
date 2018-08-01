@@ -203,6 +203,9 @@ typedef void(^doneBlock)(NSDate *);
             case CXDateStyleShowYearMonthDay:
                 _dateFormatter = @"yyyy-MM-dd";
                 break;
+            case CXDateStyleShowDayHourMinute:
+                _dateFormatter = @"dd HH:mm";
+                break;
             case CXDateStyleShowYearMonth:
                 _dateFormatter = @"yyyy-MM";
                 break;
@@ -246,6 +249,9 @@ typedef void(^doneBlock)(NSDate *);
                 break;
             case CXDateStyleShowYearMonthDay:
                 _dateFormatter = @"yyyy-MM-dd";
+                break;
+            case CXDateStyleShowDayHourMinute:
+                _dateFormatter = @"dd HH:mm";
                 break;
             case CXDateStyleShowYearMonth:
                 _dateFormatter = @"yyyy-MM";
@@ -465,6 +471,9 @@ typedef void(^doneBlock)(NSDate *);
         case CXDateStyleShowYearMonthDay:
             [self addLabelWithName:@[@"年",@"月",@"日"]];
             return 3;
+        case CXDateStyleShowDayHourMinute:
+            [self addLabelWithName:@[@"日",@"时",@"分"]];
+            return 3;
         case CXDateStyleShowYearMonth:
            [self addLabelWithName:@[@"年",@"月"]];
             return 2;
@@ -502,6 +511,9 @@ typedef void(^doneBlock)(NSDate *);
             break;
         case CXDateStyleShowYearMonthDay:
             return @[@(yearNum),@(monthNum),@(dayNum)];
+            break;
+        case CXDateStyleShowDayHourMinute:
+            return @[@(dayNum),@(hourNum),@(minuteNUm)];
             break;
         case CXDateStyleShowYearMonth:
             return @[@(yearNum),@(monthNum)];
@@ -564,6 +576,17 @@ typedef void(^doneBlock)(NSDate *);
             }
             if (component==2) {
                 title = _dayArray[row];
+            }
+            break;
+        case CXDateStyleShowDayHourMinute:
+            if (component==0) {
+                title = _dayArray[row];
+            }
+            if (component==1) {
+                title = _hourArray[row];
+            }
+            if (component==2) {
+                title = _minuteArray[row];
             }
             break;
         case CXDateStyleShowYearMonth:
@@ -675,6 +698,20 @@ typedef void(^doneBlock)(NSDate *);
                 if (_dayArray.count-1<dayIndex) {
                     dayIndex = _dayArray.count-1;
                 }
+            }
+        }
+            break;
+            
+        case CXDateStyleShowDayHourMinute:{
+            
+            if (component == 0) {
+                dayIndex = row;
+            }
+            if (component == 1) {
+                hourIndex = row;
+            }
+            if (component == 2) {
+                minuteIndex = row;
             }
         }
             break;
@@ -847,6 +884,8 @@ typedef void(^doneBlock)(NSDate *);
         indexArray = @[@(yearIndex),@(monthIndex),@(dayIndex),@(hourIndex),@(minuteIndex)];
     if (self.datePickerStyle == CXDateStyleShowYearMonthDay)
         indexArray = @[@(yearIndex),@(monthIndex),@(dayIndex)];
+    if (self.datePickerStyle == CXDateStyleShowDayHourMinute)
+        indexArray = @[@(dayIndex),@(hourIndex),@(minuteIndex)];
     if (self.datePickerStyle == CXDateStyleShowYearMonth)
         indexArray = @[@(yearIndex),@(monthIndex)];
     if (self.datePickerStyle == CXDateStyleShowMonthDayHourMinute)

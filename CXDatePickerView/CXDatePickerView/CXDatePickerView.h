@@ -15,9 +15,11 @@ typedef NS_ENUM(NSUInteger, CXDateStyle) {
     CXDateStyleShowYearMonthDayHourMinute  = 0,//年月日时分
     CXDateStyleShowMonthDayHourMinute,//月日时分
     CXDateStyleShowYearMonthDay,//年月日
+    CXDateStyleShowDayHourMinute, //日时分
     CXDateStyleShowYearMonth,//年月
     CXDateStyleShowMonthDay,//月日
     CXDateStyleShowHourMinute//时分
+   
 };
 
 
