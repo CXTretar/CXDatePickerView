@@ -10,6 +10,7 @@
 #import "PickerViewParameter.h"
 
 typedef void(^doneBlock)(NSDate *);
+typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes);
 
 @interface CXDatePickerView()<UIPickerViewDelegate,UIPickerViewDataSource,UIGestureRecognizerDelegate> {
     //日期存储数组
@@ -38,10 +39,13 @@ typedef void(^doneBlock)(NSDate *);
 @property (nonatomic, strong) UIPickerView *datePicker;
 @property (nonatomic, retain) NSDate *scrollToDate;//滚到指定日期
 @property (nonatomic, copy) doneBlock doneBlock;
+@property (nonatomic, copy) doneZeroDayBlock doneZeroDayBlock;
 @property (nonatomic, assign) CXDateStyle datePickerStyle;
 @property (nonatomic, strong) UILabel *showYearView;
 @property (nonatomic, weak) UIButton *confirmButton;
 @property (nonatomic, weak) UIButton *cancelButton;
+
+@property (nonatomic, assign) BOOL isZeroDay;
 
 @end
 
@@ -279,6 +283,23 @@ typedef void(^doneBlock)(NSDate *);
     return self;
 }
 
+- (instancetype)initWithZeroDayCompleteBlock:(void(^)(NSInteger days,NSInteger hours,NSInteger minutes))completeBlock {
+    self = [super init];
+    if (self) {
+        self.isZeroDay = YES;
+        self.datePickerStyle = CXDateStyleShowDayHourMinute;
+        [self setupUI];
+        [self defaultConfig];
+        [self getNowDate:nil animated:YES];
+        if (completeBlock) {
+            self.doneZeroDayBlock = ^(NSInteger days, NSInteger hours, NSInteger minutes) {
+                completeBlock(days,hours,minutes);
+            };
+        }
+    }
+    return self;
+}
+
 - (void)setupUI {
     self.frame = CGRectMake(0, 0, kScreenWidth, kScreenHeight);
     self.backgroundColor = [UIColor clearColor];
@@ -415,6 +436,45 @@ typedef void(^doneBlock)(NSDate *);
     }
 }
 
+//- (void)zeroDayConfig {
+//    if (!_scrollToDate) {
+//        _scrollToDate = [NSDate date];
+//    }
+//    //循环滚动时需要用到
+//    preRow = (self.scrollToDate.year- MINYEAR)*12+self.scrollToDate.month-1;
+//
+//    //设置年月日时分数据
+//    _yearArray = [self setArray:_yearArray];
+//    _monthArray = [self setArray:_monthArray];
+//    _dayArray = [self setArray:_dayArray];
+//    _hourArray = [self setArray:_hourArray];
+//    _minuteArray = [self setArray:_minuteArray];
+//
+//    for (int i=0; i<60; i++) {
+//        NSString *num = [NSString stringWithFormat:@"%02d",i];
+//        if (0<i && i<=12)
+//            [_monthArray addObject:num];
+//        if (i<24)
+//            [_hourArray addObject:num];
+//        [_minuteArray addObject:num];
+//    }
+//    for (NSInteger i = MINYEAR; i<= MAXYEAR; i++) {
+//        NSString *num = [NSString stringWithFormat:@"%ld",(long)i];
+//        [_yearArray addObject:num];
+//    }
+//
+//    //最大最小限制
+//    if (!self.maxLimitDate) {
+//        self.maxLimitDate = [NSDate date:@"2099-12-31 23:59" WithFormat:@"yyyy-MM-dd HH:mm"];
+//    }
+//    //最小限制
+//    if (!self.minLimitDate) {
+//        self.minLimitDate = [NSDate date:@"1000-01-01 00:00" WithFormat:@"yyyy-MM-dd HH:mm"];
+//    }
+//
+//}
+
+
 - (NSMutableArray *)setArray:(id)mutableArray {
     if (mutableArray)
         [mutableArray removeAllObjects];
@@ -422,6 +482,7 @@ typedef void(^doneBlock)(NSDate *);
         mutableArray = [NSMutableArray array];
     return mutableArray;
 }
+
 
 #pragma mark - Action
 - (void)show {
@@ -449,8 +510,13 @@ typedef void(^doneBlock)(NSDate *);
 
 - (void)confirm {
     _startDate = [self.scrollToDate dateWithFormatter:_dateFormatter];
-    
-    self.doneBlock(_startDate);
+    if (self.doneZeroDayBlock) {
+        self.doneZeroDayBlock(dayIndex,hourIndex,minuteIndex);
+    }
+    if (self.doneBlock) {
+        self.doneBlock(_startDate);
+    }
+   
     NSLog(@"%@", _startDate);
     [self dismiss];
 }
@@ -472,7 +538,11 @@ typedef void(^doneBlock)(NSDate *);
             [self addLabelWithName:@[@"年",@"月",@"日"]];
             return 3;
         case CXDateStyleShowDayHourMinute:
-            [self addLabelWithName:@[@"日",@"时",@"分"]];
+            if (_isZeroDay) {
+                [self addLabelWithName:@[@"天",@"时",@"分"]];
+            }else {
+                [self addLabelWithName:@[@"日",@"时",@"分"]];
+            }
             return 3;
         case CXDateStyleShowYearMonth:
            [self addLabelWithName:@[@"年",@"月"]];
@@ -859,13 +929,17 @@ typedef void(^doneBlock)(NSDate *);
     for (int i=1; i<=num; i++) {
         [_dayArray addObject:[NSString stringWithFormat:@"%02d",i]];
     }
+    if (_isZeroDay) {
+        [_dayArray insertObject:@"00" atIndex:0];
+    }
 }
 
 //滚动到指定的时间位置
 - (void)getNowDate:(NSDate *)date animated:(BOOL)animated {
-    if (!date) {
+    if (!date && _isZeroDay) {
         date = [NSDate date];
     }
+    
     
     [self DaysfromYear:date.year andMonth:date.month];
     
@@ -874,6 +948,12 @@ typedef void(^doneBlock)(NSDate *);
     dayIndex = date.day-1;
     hourIndex = date.hour;
     minuteIndex = date.minute;
+    
+    if (_isZeroDay) {
+        dayIndex = 0;
+        hourIndex = 0;
+        minuteIndex = 0;
+    }
     
     //循环滚动时需要用到
     preRow = (self.scrollToDate.year-MINYEAR)*12+self.scrollToDate.month-1;

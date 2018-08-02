@@ -126,10 +126,17 @@ typedef NS_ENUM(NSUInteger, CXDateStyle) {
  */
 - (instancetype)initWithDateStyle:(CXDateStyle)datePickerStyle CompleteBlock:(void(^)(NSDate *date))completeBlock;
 
+
 /**
  滚动到指定的的日期
  */
 - (instancetype)initWithDateStyle:(CXDateStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate CompleteBlock:(void(^)(NSDate *date))completeBlock;
+
+
+/**
+  定制日时分选择器
+ */
+- (instancetype)initWithZeroDayCompleteBlock:(void(^)(NSInteger days,NSInteger hours,NSInteger minutes))completeBlock;
 
 
 - (void)show;
