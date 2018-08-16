@@ -113,8 +113,8 @@
         {
             //日-时-分 (day 从 00 开始)
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithZeroDayCompleteBlock:^(NSInteger days, NSInteger hours, NSInteger minutes) {
-                NSLog(@"%ld -- %ld -- %ld", days, hours, minutes);
-                NSString *dateString = [NSString stringWithFormat:@"%ld天%ld时%ld分", days, hours, minutes];
+                NSLog(@"%ld -- %ld -- %ld", (long)days, (long)hours, (long)minutes);
+                NSString *dateString = [NSString stringWithFormat:@"%ld天%ld时%ld分", (long)days, (long)hours, (long)minutes];
                 [btn setTitle:dateString forState:UIControlStateNormal];
             }];
 
@@ -122,6 +122,7 @@
             datepicker.datePickerColor = randomColor;//滚轮日期颜色
             datepicker.doneButtonColor = randomColor;//确定按钮的颜色
             datepicker.cancelButtonColor = datepicker.doneButtonColor;
+            datepicker.hideBackgroundYearLabel = YES;//隐藏背景年份文字
             [datepicker show];
         }
             break;
