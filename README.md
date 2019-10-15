@@ -61,15 +61,14 @@ typedef NS_ENUM(NSUInteger, CXDateStyle) {
 * example【示例】 
 ```
 CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowYearMonthDayHourMinute CompleteBlock:^(NSDate *selectDate) {
-                
-                NSString *dateString = [selectDate stringWithFormat:@"yyyy-MM-dd HH:mm"];
-                NSLog(@"选择的日期：%@",dateString);
-                [btn setTitle:dateString forState:UIControlStateNormal];
-            }];
-            datepicker.dateLabelColor = [UIColor orangeColor];//年-月-日-时-分 颜色
-            datepicker.datePickerColor = [UIColor blackColor];//滚轮日期颜色
-            datepicker.headerViewColor = [UIColor orangeColor]; // 顶部视图背景颜色
-            datepicker.shadeViewAlphaWhenShow = 0.3;
-            datepicker.showAnimationTime = 0.4;
-            [datepicker show];
+  NSString *dateString = [selectDate stringWithFormat:@"yyyy-MM-dd HH:mm"];
+  NSLog(@"选择的日期：%@",dateString);
+  [btn setTitle:dateString forState:UIControlStateNormal];
+}];
+datepicker.dateLabelColor = [UIColor orangeColor];//年-月-日-时-分 颜色
+datepicker.datePickerColor = [UIColor blackColor];//滚轮日期颜色
+datepicker.headerViewColor = [UIColor orangeColor]; // 顶部视图背景颜色
+datepicker.shadeViewAlphaWhenShow = 0.3;
+datepicker.showAnimationTime = 0.4;
+[datepicker show];
 ```
