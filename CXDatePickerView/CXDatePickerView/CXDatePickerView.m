@@ -660,6 +660,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
             }
             break;
         case CXDateStyleShowYearMonth:
+           
             if (component==0) {
                 title = _yearArray[row];
             }
@@ -795,7 +796,12 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
             if (component == 1) {
                 monthIndex = row;
             }
+            [self DaysfromYear:[_yearArray[yearIndex] integerValue] andMonth:[_monthArray[monthIndex] integerValue]];
+            if (_dayArray.count-1<dayIndex) {
+                dayIndex = _dayArray.count-1;
+            }
         }
+             
             break;
             
             
@@ -816,7 +822,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
                 
                 [self yearChange:row];
                 [self DaysfromYear:[_yearArray[yearIndex] integerValue] andMonth:[_monthArray[monthIndex] integerValue]];
-                if (_dayArray.count-1<dayIndex) {
+                if (_dayArray.count - 1 < dayIndex) {
                     dayIndex = _dayArray.count-1;
                 }
             }

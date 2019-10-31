@@ -22,7 +22,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    NSArray *arr = @[@"年-月-日-时-分",@"月-日-时-分",@"年-月-日",@"日-时-分",@"日-时-分(00日)",@"年-月",@"月-日",@"时-分",@"指定日期2011-11-11 11:11"];
+    NSArray *arr = @[@"年-月-日-时-分",@"月-日-时-分",@"年-月-日",@"日-时-分",@"天-时-分(00日)",@"年-月",@"月-日",@"时-分",@"指定日期2011-11-11 11:11"];
     for (NSInteger i = 0; i < arr.count; i++) {
         UIButton *selectBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         selectBtn.frame = CGRectMake(20, 40+50*i, self.view.frame.size.width-40, 40);
