@@ -58,7 +58,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 
 - (void)setDatePickerColor:(UIColor *)datePickerColor {
     _datePickerColor = datePickerColor;
-     [self.datePicker reloadAllComponents];
+    [self.datePicker reloadAllComponents];
 }
 
 - (void)setDatePickerFont:(UIFont *)datePickerFont {
@@ -137,10 +137,10 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
                                          _topViewHeight);
     
     self.confirmButton.frame = CGRectMake(self.confirmButton.frame.origin.x,
-                                         self.confirmButton.frame.origin.y,
-                                         self.confirmButton.frame.size.width,
-                                         _topViewHeight);
-     [self.datePicker reloadAllComponents];
+                                          self.confirmButton.frame.origin.y,
+                                          self.confirmButton.frame.size.width,
+                                          _topViewHeight);
+    [self.datePicker reloadAllComponents];
 }
 
 - (void)setPickerViewHeight:(CGFloat)pickerViewHeight {
@@ -318,7 +318,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     self.buttomView.backgroundColor = [UIColor whiteColor];
     
     [self addSubview:self.buttomView];
-
+    
     [self.buttomView addSubview:self.showYearView];
     [self.buttomView addSubview:self.datePicker];
     
@@ -392,6 +392,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 
 - (void)setMinLimitDate:(NSDate *)minLimitDate {
     _minLimitDate = minLimitDate;
+    
     if ([_scrollToDate compare:self.minLimitDate] == NSOrderedAscending) {
         _scrollToDate = self.minLimitDate;
     }
@@ -404,7 +405,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         _scrollToDate = [NSDate date];
     }
     //循环滚动时需要用到
-    preRow = (self.scrollToDate.year- MINYEAR)*12+self.scrollToDate.month-1;
+    preRow = (self.scrollToDate.cx_year- MINYEAR)*12 + self.scrollToDate.cx_month - 1;
     
     //设置年月日时分数据
     _yearArray = [self setArray:_yearArray];
@@ -428,11 +429,11 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     
     //最大最小限制
     if (!self.maxLimitDate) {
-        self.maxLimitDate = [NSDate date:@"2099-12-31 23:59" WithFormat:@"yyyy-MM-dd HH:mm"];
+        self.maxLimitDate = [NSDate cx_date:@"2099-12-31 23:59" WithFormat:@"yyyy-MM-dd HH:mm"];
     }
     //最小限制
     if (!self.minLimitDate) {
-        self.minLimitDate = [NSDate date:@"1000-01-01 00:00" WithFormat:@"yyyy-MM-dd HH:mm"];
+        self.minLimitDate = [NSDate cx_date:@"1000-01-01 00:00" WithFormat:@"yyyy-MM-dd HH:mm"];
     }
 }
 
@@ -509,14 +510,14 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 }
 
 - (void)confirm {
-    _startDate = [self.scrollToDate dateWithFormatter:_dateFormatter];
+    _startDate = [self.scrollToDate cx_dateWithFormatter:_dateFormatter];
     if (self.doneZeroDayBlock) {
         self.doneZeroDayBlock(dayIndex,hourIndex,minuteIndex);
     }
     if (self.doneBlock) {
         self.doneBlock(_startDate);
     }
-   
+    
     NSLog(@"%@", _startDate);
     [self dismiss];
 }
@@ -545,7 +546,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
             }
             return 3;
         case CXDateStyleShowYearMonth:
-           [self addLabelWithName:@[@"年",@"月"]];
+            [self addLabelWithName:@[@"年",@"月"]];
             return 2;
         case CXDateStyleShowMonthDay:
             [self addLabelWithName:@[@"月",@"日"]];
@@ -660,7 +661,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
             }
             break;
         case CXDateStyleShowYearMonth:
-           
+            
             if (component==0) {
                 title = _yearArray[row];
             }
@@ -671,9 +672,9 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         case CXDateStyleShowMonthDayHourMinute:
             if (component==0) {
                 title = _monthArray[row%12];
-//                NSDate *date = [NSDate date:title WithFormat:@"MM"];
-//                NSString *string = [date stringWithFormat:@"MMMM"];
-//                title = string;
+                //                NSDate *date = [NSDate date:title WithFormat:@"MM"];
+                //                NSString *string = [date stringWithFormat:@"MMMM"];
+                //                title = string;
             }
             if (component==1) {
                 title = _dayArray[row];
@@ -707,7 +708,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     }
     
     customLabel.text = title;
-  
+    
     customLabel.textColor = self.datePickerColor;
     customLabel.font = self.datePickerFont;
     
@@ -715,7 +716,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         ((UIView *)[self.datePicker.subviews objectAtIndex:1]).backgroundColor = [UIColor clearColor];
         ((UIView *)[self.datePicker.subviews objectAtIndex:2]).backgroundColor = [UIColor clearColor];
     }
-  
+    
     return customLabel;
     
 }
@@ -801,7 +802,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
                 dayIndex = _dayArray.count-1;
             }
         }
-             
+            
             break;
             
             
@@ -865,7 +866,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     
     NSString *dateStr = [NSString stringWithFormat:@"%@-%@-%@ %@:%@",_yearArray[yearIndex],_monthArray[monthIndex],_dayArray[dayIndex],_hourArray[hourIndex],_minuteArray[minuteIndex]];
     
-    self.scrollToDate = [[NSDate date:dateStr WithFormat:@"yyyy-MM-dd HH:mm"] dateWithFormatter:_dateFormatter];
+    self.scrollToDate = [[NSDate cx_date:dateStr WithFormat:@"yyyy-MM-dd HH:mm"] cx_dateWithFormatter:_dateFormatter];
     
     if ([self.scrollToDate compare:self.minLimitDate] == NSOrderedAscending) {
         self.scrollToDate = self.minLimitDate;
@@ -947,13 +948,13 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     }
     
     
-    [self DaysfromYear:date.year andMonth:date.month];
+    [self DaysfromYear:date.cx_year andMonth:date.cx_month];
     
-    yearIndex = date.year-MINYEAR;
-    monthIndex = date.month-1;
-    dayIndex = date.day-1;
-    hourIndex = date.hour;
-    minuteIndex = date.minute;
+    yearIndex = date.cx_year - MINYEAR;
+    monthIndex = date.cx_month - 1;
+    dayIndex = date.cx_day - 1;
+    hourIndex = date.cx_hour;
+    minuteIndex = date.cx_minute;
     
     if (_isZeroDay) {
         dayIndex = 0;
@@ -962,7 +963,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     }
     
     //循环滚动时需要用到
-    preRow = (self.scrollToDate.year-MINYEAR)*12+self.scrollToDate.month-1;
+    preRow = (self.scrollToDate.cx_year - MINYEAR) * 12 + self.scrollToDate.cx_month - 1;
     
     NSArray *indexArray;
     
@@ -981,13 +982,13 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     if (self.datePickerStyle == CXDateStyleShowHourMinute)
         indexArray = @[@(hourIndex),@(minuteIndex)];
     
-     self.showYearView.text = _yearArray[yearIndex];
+    self.showYearView.text = _yearArray[yearIndex];
     
     [self.datePicker reloadAllComponents];
     
     for (int i=0; i<indexArray.count; i++) {
         if ((self.datePickerStyle == CXDateStyleShowMonthDayHourMinute || self.datePickerStyle == CXDateStyleShowMonthDay)&& i==0) {
-            NSInteger mIndex = [indexArray[i] integerValue]+(12*(self.scrollToDate.year - MINYEAR));
+            NSInteger mIndex = [indexArray[i] integerValue]+(12 * (self.scrollToDate.cx_year - MINYEAR));
             [self.datePicker selectRow:mIndex inComponent:i animated:animated];
         } else {
             [self.datePicker selectRow:[indexArray[i] integerValue] inComponent:i animated:animated];

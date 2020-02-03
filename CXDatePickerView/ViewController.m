@@ -45,7 +45,7 @@
             //年-月-日-时-分
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowYearMonthDayHourMinute CompleteBlock:^(NSDate *selectDate) {
                 
-                NSString *dateString = [selectDate stringWithFormat:@"yyyy-MM-dd HH:mm"];
+                NSString *dateString = [selectDate cx_stringWithFormat:@"yyyy-MM-dd HH:mm"];
                 NSLog(@"选择的日期：%@",dateString);
                 [btn setTitle:dateString forState:UIControlStateNormal];
             }];
@@ -56,6 +56,9 @@
             datepicker.cancelButtonColor = [UIColor whiteColor]; // 取消按钮颜色
             datepicker.shadeViewAlphaWhenShow = 0.3;
             datepicker.showAnimationTime = 0.4;
+            datepicker.minLimitDate = [NSDate cx_date:@"2019-12-1 12:45" WithFormat:@"yyyy-MM-dd HH:mm"];
+            datepicker.maxLimitDate = [NSDate cx_date:@"2019-12-26 12:45" WithFormat:@"yyyy-MM-dd HH:mm"];
+            
             [datepicker show];
         }
             break;
@@ -64,7 +67,7 @@
             //月-日-时-分
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowMonthDayHourMinute CompleteBlock:^(NSDate *selectDate) {
                 
-                NSString *dateString = [selectDate stringWithFormat:@"MM-dd HH:mm"];
+                NSString *dateString = [selectDate cx_stringWithFormat:@"MM-dd HH:mm"];
                 NSLog(@"选择的日期：%@",dateString);
                 [btn setTitle:dateString forState:UIControlStateNormal];
             }];
@@ -82,7 +85,7 @@
             //年-月-日
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowYearMonthDay CompleteBlock:^(NSDate *selectDate) {
                 
-                NSString *dateString = [selectDate stringWithFormat:@"yyyy-MM-dd"];
+                NSString *dateString = [selectDate cx_stringWithFormat:@"yyyy-MM-dd"];
                 NSLog(@"选择的日期：%@",dateString);
                 [btn setTitle:dateString forState:UIControlStateNormal];
             }];
@@ -98,7 +101,7 @@
             //日-时-分
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowDayHourMinute CompleteBlock:^(NSDate *selectDate) {
                 
-                NSString *dateString = [selectDate stringWithFormat:@"d日 HH:mm"];
+                NSString *dateString = [selectDate cx_stringWithFormat:@"d日 HH:mm"];
                 NSLog(@"选择的日期：%@",dateString);
                 [btn setTitle:dateString forState:UIControlStateNormal];
             }];
@@ -131,7 +134,7 @@
             //年-月
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowYearMonth CompleteBlock:^(NSDate *selectDate) {
                 
-                NSString *dateString = [selectDate stringWithFormat:@"yyyy-MM"];
+                NSString *dateString = [selectDate cx_stringWithFormat:@"yyyy-MM"];
                 NSLog(@"选择的日期：%@",dateString);
                 [btn setTitle:dateString forState:UIControlStateNormal];
             }];
@@ -149,7 +152,7 @@
             //月-日
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowMonthDay CompleteBlock:^(NSDate *selectDate) {
                 
-                NSString *dateString = [selectDate stringWithFormat:@"MM-dd"];
+                NSString *dateString = [selectDate cx_stringWithFormat:@"MM-dd"];
                 NSLog(@"选择的日期：%@",dateString);
                 [btn setTitle:dateString forState:UIControlStateNormal];
             }];
@@ -166,7 +169,7 @@
             //时-分
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowHourMinute CompleteBlock:^(NSDate *selectDate) {
                 
-                NSString *dateString = [selectDate stringWithFormat:@"HH:mm"];
+                NSString *dateString = [selectDate cx_stringWithFormat:@"HH:mm"];
                 NSLog(@"选择的日期：%@",dateString);
                 [btn setTitle:dateString forState:UIControlStateNormal];
             }];
@@ -189,7 +192,7 @@
             
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowYearMonthDayHourMinute scrollToDate:scrollToDate CompleteBlock:^(NSDate *selectDate) {
                 
-                NSString *date = [selectDate stringWithFormat:@"yyyy-MM-dd HH:mm"];
+                NSString *date = [selectDate cx_stringWithFormat:@"yyyy-MM-dd HH:mm"];
                 NSLog(@"选择的日期：%@",date);
                 [btn setTitle:date forState:UIControlStateNormal];
                 
