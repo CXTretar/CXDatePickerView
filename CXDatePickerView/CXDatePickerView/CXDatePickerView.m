@@ -8,7 +8,6 @@
 
 #import "CXDatePickerView.h"
 #import "PickerViewParameter.h"
-#import "NSDate+CXCategory.h"
 
 typedef void(^doneBlock)(NSDate *);
 typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes);
@@ -31,14 +30,6 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     NSInteger preRow;
     
     NSDate *_startDate;
-    
-    NSInteger _minYear;
-    NSInteger _maxYear;
-    
-    BOOL _recalculateMonth;
-    BOOL _recalculateDay;
-    BOOL _recalculatehour;
-    BOOL _recalculateminute;
     
 }
 
@@ -84,11 +75,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 
 - (void)setHideBackgroundYearLabel:(BOOL)hideBackgroundYearLabel {
     _hideBackgroundYearLabel = hideBackgroundYearLabel;
-    if (hideBackgroundYearLabel) {
-        self.showYearView.textColor = [UIColor clearColor];
-    }else{
-        self.showYearView.textColor = _yearLabelColor;
-    }
+    self.showYearView.textColor = [UIColor clearColor];
 }
 
 - (void)setDoneButtonTitle:(NSString *)doneButtonTitle {
@@ -183,8 +170,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     [self.datePicker reloadAllComponents];
 }
 
-- (UIPickerView *)datePicker
-{
+- (UIPickerView *)datePicker {
     if (!_datePicker) {
         _datePicker = [[UIPickerView alloc] initWithFrame:CGRectMake(PickerPointX, PickerPointY, PickerWeight, PickerHeight)];
         _datePicker.showsSelectionIndicator = YES;
@@ -199,8 +185,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         _showYearView = [[UILabel alloc] initWithFrame:CGRectMake(PickerPointX, PickerPointY, PickerWeight, PickerHeight)];
         _showYearView.textAlignment = NSTextAlignmentCenter;
         _showYearView.font = [UIFont systemFontOfSize:110];
-        _showYearView.textColor = RGB(228, 232, 239);
-        _yearLabelColor = RGB(228, 232, 239);
+        _showYearView.textColor =  RGB(228, 232, 239);
     }
     return _showYearView;
 }
@@ -242,7 +227,6 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         
         [self setupUI];
         [self defaultConfig];
-        
         if (completeBlock) {
             self.doneBlock = ^(NSDate *selectDate) {
                 completeBlock(selectDate);
@@ -290,7 +274,6 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         
         [self setupUI];
         [self defaultConfig];
-        
         if (completeBlock) {
             self.doneBlock = ^(NSDate *selectDate) {
                 completeBlock(selectDate);
@@ -410,34 +393,19 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 - (void)setMinLimitDate:(NSDate *)minLimitDate {
     _minLimitDate = minLimitDate;
     
-    if ([_scrollToDate compare:_minLimitDate] != NSOrderedSame) {
-        _scrollToDate = _minLimitDate;
+    if ([_scrollToDate compare:self.minLimitDate] == NSOrderedAscending) {
+        _scrollToDate = self.minLimitDate;
     }
-    [self recalculateConfig];
     [self getNowDate:self.scrollToDate animated:NO];
-    
 }
 
-- (void)setMaxLimitDate:(NSDate *)maxLimitDate {
-    _maxLimitDate = maxLimitDate;
-    [self recalculateConfig];
-}
-
-- (void)setHideExceptLimitDate:(BOOL)hideExceptLimitDate {
-    _hideExceptLimitDate = hideExceptLimitDate;
-    [self recalculateConfig];
-}
-
-#pragma mark - 初始化数组
-- (void)defaultConfig {
-    _minYear = MINYEAR;
-    _maxYear = MAXYEAR;
+-(void)defaultConfig {
     
     if (!_scrollToDate) {
         _scrollToDate = [NSDate date];
     }
     //循环滚动时需要用到
-    preRow = (self.scrollToDate.cx_year - _minYear) * 12 + self.scrollToDate.cx_month - 1;
+    preRow = (self.scrollToDate.cx_year- MINYEAR)*12 + self.scrollToDate.cx_month - 1;
     
     //设置年月日时分数据
     _yearArray = [self setArray:_yearArray];
@@ -446,20 +414,16 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     _hourArray = [self setArray:_hourArray];
     _minuteArray = [self setArray:_minuteArray];
     
-    for (int i = 0; i < 60; i++) {
+    for (int i=0; i<60; i++) {
         NSString *num = [NSString stringWithFormat:@"%02d",i];
-        if (0 < i && i <= 12) {
+        if (0<i && i<=12)
             [_monthArray addObject:num];
-        }
-        
-        if (i < 24) {
+        if (i<24)
             [_hourArray addObject:num];
-            
-        }
         [_minuteArray addObject:num];
     }
-    for (NSInteger i = _minYear; i <= _maxYear; i++) {
-        NSString *num = [NSString stringWithFormat:@"%ld", i];
+    for (NSInteger i = MINYEAR; i<= MAXYEAR; i++) {
+        NSString *num = [NSString stringWithFormat:@"%ld",(long)i];
         [_yearArray addObject:num];
     }
     
@@ -471,94 +435,46 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     if (!self.minLimitDate) {
         self.minLimitDate = [NSDate cx_date:@"1000-01-01 00:00" WithFormat:@"yyyy-MM-dd HH:mm"];
     }
-    
 }
 
-- (void)judgeDegree {
-    _recalculateMonth = NO;
-    _recalculateDay = NO;
-    _recalculatehour = NO;
-    _recalculateminute = NO;
-    yearIndex = _maxLimitDate.cx_year - _minLimitDate.cx_year;
-    
-    if (self.minLimitDate.cx_year == self.maxLimitDate.cx_year) {
-        
-        if (self.minLimitDate.cx_month != self.maxLimitDate.cx_month) {
-            _recalculateMonth = YES;
-        }else  if (self.minLimitDate.cx_day != self.maxLimitDate.cx_day) {
-            _recalculateMonth = YES;
-            _recalculateDay = YES;
-        }else  if (self.minLimitDate.cx_hour != self.maxLimitDate.cx_hour) {
-            _recalculateMonth = YES;
-            _recalculateDay = YES;
-            _recalculatehour = YES;
-        }else  if (self.minLimitDate.cx_minute != self.maxLimitDate.cx_minute) {
-            _recalculateMonth = YES;
-            _recalculateDay = YES;
-            _recalculatehour = YES;
-            _recalculateminute = YES;
-        }
-        
-    }
-    
-}
+//- (void)zeroDayConfig {
+//    if (!_scrollToDate) {
+//        _scrollToDate = [NSDate date];
+//    }
+//    //循环滚动时需要用到
+//    preRow = (self.scrollToDate.year- MINYEAR)*12+self.scrollToDate.month-1;
+//
+//    //设置年月日时分数据
+//    _yearArray = [self setArray:_yearArray];
+//    _monthArray = [self setArray:_monthArray];
+//    _dayArray = [self setArray:_dayArray];
+//    _hourArray = [self setArray:_hourArray];
+//    _minuteArray = [self setArray:_minuteArray];
+//
+//    for (int i=0; i<60; i++) {
+//        NSString *num = [NSString stringWithFormat:@"%02d",i];
+//        if (0<i && i<=12)
+//            [_monthArray addObject:num];
+//        if (i<24)
+//            [_hourArray addObject:num];
+//        [_minuteArray addObject:num];
+//    }
+//    for (NSInteger i = MINYEAR; i<= MAXYEAR; i++) {
+//        NSString *num = [NSString stringWithFormat:@"%ld",(long)i];
+//        [_yearArray addObject:num];
+//    }
+//
+//    //最大最小限制
+//    if (!self.maxLimitDate) {
+//        self.maxLimitDate = [NSDate date:@"2099-12-31 23:59" WithFormat:@"yyyy-MM-dd HH:mm"];
+//    }
+//    //最小限制
+//    if (!self.minLimitDate) {
+//        self.minLimitDate = [NSDate date:@"1000-01-01 00:00" WithFormat:@"yyyy-MM-dd HH:mm"];
+//    }
+//
+//}
 
-- (void)recalculateConfig {
-    
-    if (!self.hideExceptLimitDate || _isZeroDay) {
-        return;
-    }
-    
-    [self judgeDegree];
-    _minYear = self.minLimitDate.cx_year;
-    _maxYear = self.maxLimitDate.cx_year;
-    
-    //设置年月日时分数据
-    NSMutableArray *yearArray = [NSMutableArray array];
-    NSMutableArray *monthArray = [NSMutableArray array];
-    NSMutableArray *hourArray = [NSMutableArray array];
-    NSMutableArray *minuteArray = [NSMutableArray array];
-    
-    for (NSInteger i = self.minLimitDate.cx_year; i <= self.maxLimitDate.cx_year; i++) {
-        NSString *num = [NSString stringWithFormat:@"%ld", i];
-        [yearArray addObject:num];
-    }
-    
-    for (int i = 0; i < 60; i++) {
-        NSString *num = [NSString stringWithFormat:@"%02d",i];
-        
-        if (0 < i && i <= 12 && !_recalculateMonth) {
-            [monthArray addObject:num];
-        }else if(0 < i && i <= 12 && self.minLimitDate.cx_month <= i && i <= self.maxLimitDate.cx_month) {
-            [monthArray addObject:num];
-        }
-        
-        
-        if (i < 24 && !_recalculatehour) {
-            [hourArray addObject:num];
-        }else if(i < 24 && self.minLimitDate.cx_hour <= i && i <= self.maxLimitDate.cx_hour) {
-            [hourArray addObject:num];
-        }
-        if (!_recalculateminute) {
-            [minuteArray addObject:num];
-        }else if(self.minLimitDate.cx_minute <= i && i <= self.maxLimitDate.cx_minute) {
-            [minuteArray addObject:num];
-        }
-        
-    }
-    
-    
-    monthIndex = _maxLimitDate.cx_month - _minLimitDate.cx_month;
-    hourIndex = _maxLimitDate.cx_hour - _minLimitDate.cx_hour;
-    dayIndex = _maxLimitDate.cx_day - _minLimitDate.cx_day;
-    minuteIndex = _maxLimitDate.cx_minute - _minLimitDate.cx_minute;
-    _yearArray = yearArray;
-    _monthArray = monthArray;
-    _hourArray = hourArray;
-    _minuteArray = minuteArray;
-    [self.datePicker reloadAllComponents];
-    
-}
 
 - (NSMutableArray *)setArray:(id)mutableArray {
     if (mutableArray)
@@ -649,26 +565,20 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 }
 
 - (NSArray *)getNumberOfRowsInComponent {
-    
     NSInteger yearNum = _yearArray.count;
     NSInteger monthNum = _monthArray.count;
     NSInteger dayNum = [self DaysfromYear:[_yearArray[yearIndex] integerValue] andMonth:[_monthArray[monthIndex] integerValue]];
     NSInteger hourNum = _hourArray.count;
     NSInteger minuteNUm = _minuteArray.count;
     
-    NSInteger timeInterval = _maxYear - _minYear;
+    NSInteger timeInterval = MAXYEAR - MINYEAR;
     
     switch (self.datePickerStyle) {
         case CXDateStyleShowYearMonthDayHourMinute:
             return @[@(yearNum),@(monthNum),@(dayNum),@(hourNum),@(minuteNUm)];
             break;
         case CXDateStyleShowMonthDayHourMinute:
-            if (_hideExceptLimitDate) {
-               return @[@(monthNum),@(dayNum),@(hourNum),@(minuteNUm)];
-            }else {
-               return @[@(monthNum * timeInterval),@(dayNum),@(hourNum),@(minuteNUm)];
-            }
-            
+            return @[@(monthNum*timeInterval),@(dayNum),@(hourNum),@(minuteNUm)];
             break;
         case CXDateStyleShowYearMonthDay:
             return @[@(yearNum),@(monthNum),@(dayNum)];
@@ -680,7 +590,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
             return @[@(yearNum),@(monthNum)];
             break;
         case CXDateStyleShowMonthDay:
-            return @[@(monthNum * timeInterval),@(dayNum),@(hourNum)];
+            return @[@(monthNum*timeInterval),@(dayNum),@(hourNum)];
             break;
         case CXDateStyleShowHourMinute:
             return @[@(hourNum),@(minuteNUm)];
@@ -761,11 +671,10 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
             break;
         case CXDateStyleShowMonthDayHourMinute:
             if (component==0) {
-                if (_hideExceptLimitDate) {
-                   title = _monthArray[row];
-                }else {
-                   title = _monthArray[row%12];
-                }
+                title = _monthArray[row%12];
+                //                NSDate *date = [NSDate date:title WithFormat:@"MM"];
+                //                NSString *string = [date stringWithFormat:@"MMMM"];
+                //                title = string;
             }
             if (component==1) {
                 title = _dayArray[row];
@@ -899,6 +808,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
             
         case CXDateStyleShowMonthDayHourMinute:{
             
+            
             if (component == 1) {
                 dayIndex = row;
             }
@@ -956,7 +866,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     
     NSString *dateStr = [NSString stringWithFormat:@"%@-%@-%@ %@:%@",_yearArray[yearIndex],_monthArray[monthIndex],_dayArray[dayIndex],_hourArray[hourIndex],_minuteArray[minuteIndex]];
     
-    self.scrollToDate = [NSDate cx_date:dateStr WithFormat:@"yyyy-MM-dd HH:mm"];
+    self.scrollToDate = [[NSDate cx_date:dateStr WithFormat:@"yyyy-MM-dd HH:mm"] cx_dateWithFormatter:_dateFormatter];
     
     if ([self.scrollToDate compare:self.minLimitDate] == NSOrderedAscending) {
         self.scrollToDate = self.minLimitDate;
@@ -972,16 +882,9 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 
 - (void)yearChange:(NSInteger)row {
     
-    
     monthIndex = row%12;
     
-    if (_hideExceptLimitDate) {
-        yearIndex = _maxLimitDate.cx_year - _minLimitDate.cx_year;
-        monthIndex = _maxLimitDate.cx_month - _minLimitDate.cx_month;
-    }
-//
     //年份状态变化
-    NSLog(@"%ld == %ld == %ld", yearIndex, monthIndex, preRow);
     if (row-preRow <12 && row-preRow>0 && [_monthArray[monthIndex] integerValue] < [_monthArray[preRow%12] integerValue]) {
         yearIndex ++;
     } else if(preRow-row <12 && preRow-row > 0 && [_monthArray[monthIndex] integerValue] > [_monthArray[preRow%12] integerValue]) {
@@ -990,9 +893,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         NSInteger interval = (row-preRow)/12;
         yearIndex += interval;
     }
-    if (yearIndex < 0) {
-        yearIndex = 0;
-    }
+    
     self.showYearView.text = _yearArray[yearIndex];
     preRow = row;
 }
@@ -1001,12 +902,6 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 #pragma mark - tools
 //通过年月求每月天数
 - (NSInteger)DaysfromYear:(NSInteger)year andMonth:(NSInteger)month {
-    
-    if (_recalculateDay) {
-        [self setdayArray:0];
-        return _dayArray.count;
-    }
-    
     NSInteger num_year  = year;
     NSInteger num_month = month;
     
@@ -1038,20 +933,12 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 //设置每月的天数数组
 - (void)setdayArray:(NSInteger)num {
     [_dayArray removeAllObjects];
-    
-    if (_recalculateDay) {
-        for (NSInteger i = _minLimitDate.cx_day; i <= _maxLimitDate.cx_day; i++) {
-            [_dayArray addObject:[NSString stringWithFormat:@"%02ld", (long)i]];
-        }
-    }else {
-        for (int i=1; i<=num; i++) {
-            [_dayArray addObject:[NSString stringWithFormat:@"%02d",i]];
-        }
-        if (_isZeroDay) {
-            [_dayArray insertObject:@"00" atIndex:0];
-        }
+    for (int i=1; i<=num; i++) {
+        [_dayArray addObject:[NSString stringWithFormat:@"%02d",i]];
     }
-    
+    if (_isZeroDay) {
+        [_dayArray insertObject:@"00" atIndex:0];
+    }
 }
 
 //滚动到指定的时间位置
@@ -1060,9 +947,10 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         date = [NSDate date];
     }
     
+    
     [self DaysfromYear:date.cx_year andMonth:date.cx_month];
     
-    yearIndex = date.cx_year - _minYear;
+    yearIndex = date.cx_year - MINYEAR;
     monthIndex = date.cx_month - 1;
     dayIndex = date.cx_day - 1;
     hourIndex = date.cx_hour;
@@ -1072,31 +960,10 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         dayIndex = 0;
         hourIndex = 0;
         minuteIndex = 0;
-    }else {
-        if (_recalculateMonth) {
-            monthIndex = date.cx_month - _minLimitDate.cx_month;
-        }
-        if (_recalculatehour) {
-            hourIndex = date.cx_hour - _minLimitDate.cx_hour;
-        }
-        
-        if (_recalculateDay) {
-            dayIndex = date.cx_day - _minLimitDate.cx_day;
-        }
-        
-        if (_recalculateminute) {
-            minuteIndex = date.cx_minute - _minLimitDate.cx_minute;
-        }
-        
     }
     
     //循环滚动时需要用到
-    if (_hideExceptLimitDate) {
-        preRow = (self.scrollToDate.cx_year - _minYear) * 12 + self.scrollToDate.cx_month - 1;
-    }else {
-        preRow = self.scrollToDate.cx_month - 1;
-    }
-   
+    preRow = (self.scrollToDate.cx_year - MINYEAR) * 12 + self.scrollToDate.cx_month - 1;
     
     NSArray *indexArray;
     
@@ -1121,7 +988,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     
     for (int i=0; i<indexArray.count; i++) {
         if ((self.datePickerStyle == CXDateStyleShowMonthDayHourMinute || self.datePickerStyle == CXDateStyleShowMonthDay)&& i==0) {
-            NSInteger mIndex = [indexArray[i] integerValue]+(12 * (self.scrollToDate.cx_year - _minYear));
+            NSInteger mIndex = [indexArray[i] integerValue]+(12 * (self.scrollToDate.cx_year - MINYEAR));
             [self.datePicker selectRow:mIndex inComponent:i animated:animated];
         } else {
             [self.datePicker selectRow:[indexArray[i] integerValue] inComponent:i animated:animated];

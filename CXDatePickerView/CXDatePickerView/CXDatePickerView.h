@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "NSDate+CXCategory.h"
 /**
  *  弹出日期类型
  */
@@ -106,11 +106,6 @@ typedef NS_ENUM(NSUInteger, CXDateStyle) {
 @property (nonatomic, assign) BOOL hideBackgroundYearLabel;
 
 /**
- *  隐藏除了限制日期时间段的其他时间
- */
-@property (nonatomic, assign) BOOL hideExceptLimitDate;
-
-/**
  *  头部按钮视图高度
  */
 @property (nonatomic, assign) CGFloat topViewHeight; // 默认44
@@ -145,5 +140,6 @@ typedef NS_ENUM(NSUInteger, CXDateStyle) {
 
 
 - (void)show;
+
 
 @end
