@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import "CXDatePickerView.h"
+#import "NSDate+CXCategory.h"
 
 #define RGB(x,y,z) [UIColor colorWithRed:x/255.0 green:y/255.0 blue:z/255.0 alpha:1.0]
 
@@ -33,7 +34,7 @@
         [self.view addSubview:selectBtn];
         [selectBtn addTarget:self action:@selector(selectAction:) forControlEvents:UIControlEventTouchUpInside];
     }
-
+    
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -56,9 +57,9 @@
             datepicker.cancelButtonColor = [UIColor whiteColor]; // 取消按钮颜色
             datepicker.shadeViewAlphaWhenShow = 0.3;
             datepicker.showAnimationTime = 0.4;
-            datepicker.minLimitDate = [NSDate cx_date:@"2019-12-1 12:45" WithFormat:@"yyyy-MM-dd HH:mm"];
+            datepicker.minLimitDate = [NSDate cx_date:@"2019-12-26 12:40" WithFormat:@"yyyy-MM-dd HH:mm"];
             datepicker.maxLimitDate = [NSDate cx_date:@"2019-12-26 12:45" WithFormat:@"yyyy-MM-dd HH:mm"];
-            
+            datepicker.hideExceptLimitDate = YES;
             [datepicker show];
         }
             break;
@@ -74,8 +75,12 @@
             datepicker.dateLabelColor = [UIColor purpleColor];//年-月-日-时-分 颜色
             datepicker.datePickerColor = [UIColor blackColor];//滚轮日期颜色
             datepicker.doneButtonColor = [UIColor purpleColor];//确定按钮的颜色
-            datepicker.hideBackgroundYearLabel = YES;//隐藏背景年份文字
+            //            datepicker.hideBackgroundYearLabel = NO;//隐藏背景年份文字
             datepicker.cancelButtonColor = datepicker.doneButtonColor;
+            
+            datepicker.minLimitDate = [NSDate cx_date:@"2019-3-26 10:40" WithFormat:@"yyyy-MM-dd HH:mm"];
+            datepicker.maxLimitDate = [NSDate cx_date:@"2019-12-26 12:45" WithFormat:@"yyyy-MM-dd HH:mm"];
+//            datepicker.hideExceptLimitDate = YES; /
             [datepicker show];
             
         }
@@ -93,6 +98,9 @@
             datepicker.datePickerColor = randomColor;//滚轮日期颜色
             datepicker.doneButtonColor = randomColor;//确定按钮的颜色
             datepicker.cancelButtonColor = datepicker.doneButtonColor;
+            datepicker.minLimitDate = [NSDate cx_date:@"2019-3-20 10:45" WithFormat:@"yyyy-MM-dd HH:mm"];
+            datepicker.maxLimitDate = [NSDate cx_date:@"2019-12-26 12:45" WithFormat:@"yyyy-MM-dd HH:mm"];
+//            datepicker.hideExceptLimitDate = YES;
             [datepicker show];
         }
             break;
@@ -109,23 +117,26 @@
             datepicker.datePickerColor = randomColor;//滚轮日期颜色
             datepicker.doneButtonColor = randomColor;//确定按钮的颜色
             datepicker.cancelButtonColor = datepicker.doneButtonColor;
+            
+            
             [datepicker show];
         }
             break;
         case 4:
         {
-            //日-时-分 (day 从 00 开始)
+            //天-时-分 (day 从 00 开始)
             CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithZeroDayCompleteBlock:^(NSInteger days, NSInteger hours, NSInteger minutes) {
                 NSLog(@"%ld -- %ld -- %ld", (long)days, (long)hours, (long)minutes);
                 NSString *dateString = [NSString stringWithFormat:@"%ld天%ld时%ld分", (long)days, (long)hours, (long)minutes];
                 [btn setTitle:dateString forState:UIControlStateNormal];
             }];
-
+            
             datepicker.dateLabelColor = randomColor;//年-月-日-时-分 颜色
             datepicker.datePickerColor = randomColor;//滚轮日期颜色
             datepicker.doneButtonColor = randomColor;//确定按钮的颜色
             datepicker.cancelButtonColor = datepicker.doneButtonColor;
             datepicker.hideBackgroundYearLabel = YES;//隐藏背景年份文字
+            datepicker.hideExceptLimitDate = YES; // 在此种 style 下设置无效
             [datepicker show];
         }
             break;
@@ -200,7 +211,7 @@
             datepicker.dateLabelColor = RGB(65, 188, 241);//年-月-日-时-分 颜色
             datepicker.datePickerColor = [UIColor blackColor];//滚轮日期颜色
             datepicker.doneButtonColor = RGB(65, 188, 241);//确定按钮的颜色
-
+            
             datepicker.pickerViewHeight = 400;
             datepicker.topViewHeight = 40;
             datepicker.pickerRowHeight = 80;
