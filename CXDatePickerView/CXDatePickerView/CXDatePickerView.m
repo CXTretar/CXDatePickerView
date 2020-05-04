@@ -383,6 +383,26 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     NSString *title;
     
     switch (self.manager.datePickerStyle) {
+            case CXDateYearMonthDayHourMinuteSecond:
+            if (component == 0) {
+                title = self.manager.yearArray[row];
+            }
+            if (component == 1) {
+                title = self.manager.monthArray[row];
+            }
+            if (component == 2) {
+                title = self.manager.dayArray[row];
+            }
+            if (component == 3) {
+                title = self.manager.hourArray[row];
+            }
+            if (component == 4) {
+                title =  self.manager.minuteArray[row];
+            }
+            if (component == 5) {
+                title =  self.manager.secondArray[row];
+            }
+            break;
         case CXDateYearMonthDayHourMinute:
             if (component == 0) {
                 title = self.manager.yearArray[row];
@@ -482,6 +502,35 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     switch (self.manager.datePickerStyle) {
+            case CXDateYearMonthDayHourMinuteSecond:{
+                if (component == 0) {
+                    self.manager.yearIndex = row;
+                    self.backYearView.text = self.manager.yearArray[row];
+                }
+                if (component == 1) {
+                    self.manager.monthIndex = row;
+                }
+                if (component == 2) {
+                    self.manager.dayIndex = row;
+                }
+                if (component == 3) {
+                    self.manager.hourIndex = row;
+                }
+                if (component == 4) {
+                    self.manager.minuteIndex = row;
+                }
+                if (component == 5) {
+                    self.manager.secondIndex = row;
+                }
+                if (component == 0 || component == 1){
+                    [self.manager refreshDayArray];
+                    if (self.manager.dayArray.count - 1 < self.manager.dayIndex) {
+                        self.manager.dayIndex = self.manager.dayArray.count - 1;
+                    }
+                    
+                }
+            }
+                break;
         case CXDateYearMonthDayHourMinute:{
             if (component == 0) {
                 self.manager.yearIndex = row;

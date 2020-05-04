@@ -46,6 +46,7 @@
 
 - (void)viewDidLoad {
     self.examples = @[
+        [CXExample exampleWithTitle:@"年-月-日-时-分-秒" selector:@selector(showYearMonthDayHourMinuteSecond:)],
         [CXExample exampleWithTitle:@"年-月-日-时-分" selector:@selector(showYearMonthDayHourMinute:)],
         [CXExample exampleWithTitle:@"月-日-时-分" selector:@selector(showMonthDayHourMinute:)],
         [CXExample exampleWithTitle:@"年-月-日" selector:@selector(showYearMonthDay:)],
@@ -69,6 +70,26 @@
     self.tableView.rowHeight = 60;
     self.tableView = tableView;
     [self.view addSubview:tableView];
+}
+
+#pragma mark - 年-月-日-时-分-秒
+- (void)showYearMonthDayHourMinuteSecond:(NSIndexPath *)indexPath {
+    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateYearMonthDayHourMinuteSecond CompleteBlock:^(NSDate *selectDate) {
+        
+        NSString *dateString = [selectDate cx_stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSLog(@"选择的日期：%@",dateString);
+        self.examples[indexPath.row].title = dateString;
+        [self.tableView reloadData];
+    }];
+    datepicker.dateLabelColor = [UIColor orangeColor];//年-月-日-时-分-秒 颜色
+    datepicker.datePickerColor = [UIColor blackColor];//滚轮日期颜色
+    datepicker.headerViewColor = [UIColor orangeColor]; // 顶部视图背景颜色
+    datepicker.doneButtonColor = [UIColor whiteColor]; // 确认按钮字体颜色
+    datepicker.cancelButtonColor = [UIColor whiteColor]; // 取消按钮颜色
+    datepicker.shadeViewAlphaWhenShow = 0.25;
+    datepicker.minLimitDate = [NSDate cx_date:@"2019-12-1 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    datepicker.maxLimitDate = [NSDate cx_date:@"2019-12-26 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    [datepicker show];
 }
 
 #pragma mark - 年-月-日-时-分

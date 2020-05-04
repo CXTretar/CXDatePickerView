@@ -13,7 +13,8 @@
  *  弹出日期类型
  */
 typedef NS_ENUM(NSUInteger, CXDatePickerStyle) {
-    CXDateYearMonthDayHourMinute  = 0,//年月日时分
+    CXDateYearMonthDayHourMinuteSecond  = 0,//年月日时分秒
+    CXDateYearMonthDayHourMinute  ,//年月日时分
     CXDateMonthDayHourMinute,//月日时分
     CXDateYearMonthDay,//年月日
     CXDateDayHourMinute, //日时分

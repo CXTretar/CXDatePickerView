@@ -44,6 +44,10 @@
 - (void)setDatePickerStyle:(CXDatePickerStyle)datePickerStyle {
     _datePickerStyle = datePickerStyle;
     switch (datePickerStyle) {
+        case CXDateYearMonthDayHourMinuteSecond:
+            _dateFormatter = @"yyyy-MM-dd HH:mm:ss";
+            _unitArray = @[@"年",@"月",@"日",@"时",@"分",@"秒"].copy;
+            break;
         case CXDateYearMonthDayHourMinute:
             _dateFormatter = @"yyyy-MM-dd HH:mm";
             _unitArray = @[@"年",@"月",@"日",@"时",@"分"].copy;
@@ -98,17 +102,15 @@
 }
 
 - (NSInteger)hourCount {
-    if (self.hourArray) {
-        return self.hourArray.count;
-    }
-    return 0;
+    return self.hourArray.count;
 }
 
 - (NSInteger)minuteCount {
-    if (self.minuteArray) {
-        return self.minuteArray.count;
-    }
-    return 0;
+     return self.minuteArray.count;
+}
+
+- (NSInteger)secondCount {
+    return self.secondArray.count;
 }
 
 #pragma mark - 构造方法
@@ -140,6 +142,7 @@
     self.dayArray = @[].mutableCopy;
     self.hourArray = @[].mutableCopy;
     self.minuteArray = @[].mutableCopy;
+    self.secondArray = @[].mutableCopy;
     
     for (int i = 0; i < 60; i++) {
         NSString *num = [NSString stringWithFormat:@"%02d",i];
@@ -149,6 +152,7 @@
             [self.hourArray addObject:num];
         }
         [self.minuteArray addObject:num];
+        [self.secondArray addObject:num];
     }
     
     for (NSInteger i = MINYEAR; i<= MAXYEAR; i++) {
@@ -158,11 +162,11 @@
     
     //最大最小限制
     if (!self.maxLimitDate) {
-        self.maxLimitDate = [NSDate cx_date:@"2099-12-31 23:59" WithFormat:@"yyyy-MM-dd HH:mm"];
+        self.maxLimitDate = [NSDate cx_date:@"2099-12-31 23:59:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
     }
     //最小限制
     if (!self.minLimitDate) {
-        self.minLimitDate = [NSDate cx_date:@"1000-01-01 00:00" WithFormat:@"yyyy-MM-dd HH:mm"];
+        self.minLimitDate = [NSDate cx_date:@"1000-01-01 00:00:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
     }
 }
 
@@ -228,18 +232,21 @@
     self.dayIndex = date.cx_day - 1;
     self.hourIndex = date.cx_hour;
     self.minuteIndex = date.cx_minute;
+    self.secondIndex = date.cx_seconds;
     
     if (_isZeroDay) {
         self.dayIndex = 0;
         self.hourIndex = 0;
         self.minuteIndex = 0;
+        self.secondIndex = 0;
     }
     
     //循环滚动时需要用到
     self.preRow = (self.scrollToDate.cx_year - MINYEAR) * 12 + self.scrollToDate.cx_month - 1;
     
     self.indexArray = @[].copy;
-    
+    if (self.datePickerStyle == CXDateYearMonthDayHourMinuteSecond)
+           self.indexArray = @[@(self.yearIndex),@(self.monthIndex),@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex),@(self.secondIndex)];
     if (self.datePickerStyle == CXDateYearMonthDayHourMinute)
         self.indexArray = @[@(self.yearIndex),@(self.monthIndex),@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex)];
     if (self.datePickerStyle == CXDateYearMonthDay)
@@ -290,9 +297,9 @@
 
 #pragma mark - 假如超出设定范围复位
 - (void)refreshScrollToDate {
-    NSString *dateStr = [NSString stringWithFormat:@"%@-%@-%@ %@:%@",self.yearArray[self.yearIndex],self.monthArray[self.monthIndex],self.dayArray[self.dayIndex],self.hourArray[self.hourIndex],self.minuteArray[self.minuteIndex]];
+    NSString *dateStr = [NSString stringWithFormat:@"%@-%@-%@ %@:%@:%@",self.yearArray[self.yearIndex],self.monthArray[self.monthIndex],self.dayArray[self.dayIndex],self.hourArray[self.hourIndex],self.minuteArray[self.minuteIndex],self.secondArray[self.secondIndex]];
     
-    self.scrollToDate = [[NSDate cx_date:dateStr WithFormat:@"yyyy-MM-dd HH:mm"] cx_dateWithFormatter:self.dateFormatter];
+    self.scrollToDate = [[NSDate cx_date:dateStr WithFormat:@"yyyy-MM-dd HH:mm:ss"] cx_dateWithFormatter:self.dateFormatter];
     
     if ([self.scrollToDate compare:self.minLimitDate] == NSOrderedAscending) {
         self.scrollToDate = self.minLimitDate;
@@ -309,6 +316,9 @@
     [self refreshDayArray];
     
     switch (self.datePickerStyle) {
+            case CXDateYearMonthDayHourMinuteSecond:
+            return @[@(self.yearCount),@(self.monthCount),@(self.dayCount),@(self.hourCount),@(self.minuteCount),@(self.secondCount)];
+            break;
         case CXDateYearMonthDayHourMinute:
             return @[@(self.yearCount),@(self.monthCount),@(self.dayCount),@(self.hourCount),@(self.minuteCount)];
             break;

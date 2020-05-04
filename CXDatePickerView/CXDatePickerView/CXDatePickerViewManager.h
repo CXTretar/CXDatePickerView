@@ -17,6 +17,7 @@
 @property(nonatomic, strong) NSMutableArray *dayArray;
 @property(nonatomic, strong) NSMutableArray *hourArray;
 @property(nonatomic, strong) NSMutableArray *minuteArray;
+@property(nonatomic, strong) NSMutableArray *secondArray;
 
 @property(nonatomic, copy) NSArray *indexArray;
 
@@ -25,12 +26,15 @@
 @property(nonatomic, assign) NSInteger dayIndex;
 @property(nonatomic, assign) NSInteger hourIndex;
 @property(nonatomic, assign) NSInteger minuteIndex;
+@property(nonatomic, assign) NSInteger secondIndex;
 
 @property(nonatomic, assign) NSInteger yearCount;
 @property(nonatomic, assign) NSInteger monthCount;
 @property(nonatomic, assign) NSInteger dayCount;
 @property(nonatomic, assign) NSInteger hourCount;
 @property(nonatomic, assign) NSInteger minuteCount;
+@property(nonatomic, assign) NSInteger secondCount;
+
 @property(nonatomic, assign) NSInteger preRow;
 
 @property(nonatomic, strong) NSDate *startDate;
