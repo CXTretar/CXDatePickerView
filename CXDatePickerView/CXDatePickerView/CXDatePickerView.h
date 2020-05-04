@@ -7,21 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "NSDate+CXCategory.h"
-/**
- *  弹出日期类型
- */
-typedef NS_ENUM(NSUInteger, CXDateStyle) {
-    CXDateStyleShowYearMonthDayHourMinute  = 0,//年月日时分
-    CXDateStyleShowMonthDayHourMinute,//月日时分
-    CXDateStyleShowYearMonthDay,//年月日
-    CXDateStyleShowDayHourMinute, //日时分
-    CXDateStyleShowYearMonth,//年月
-    CXDateStyleShowMonthDay,//月日
-    CXDateStyleShowHourMinute//时分
-   
-};
-
+#import "CXDatePickerStyle.h"
 
 @interface CXDatePickerView : UIView
 
@@ -124,13 +110,13 @@ typedef NS_ENUM(NSUInteger, CXDateStyle) {
 /**
  默认滚动到当前时间
  */
-- (instancetype)initWithDateStyle:(CXDateStyle)datePickerStyle CompleteBlock:(void(^)(NSDate *date))completeBlock;
+- (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle CompleteBlock:(void(^)(NSDate *date))completeBlock;
 
 
 /**
  滚动到指定的的日期
  */
-- (instancetype)initWithDateStyle:(CXDateStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate CompleteBlock:(void(^)(NSDate *date))completeBlock;
+- (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate CompleteBlock:(void(^)(NSDate *date))completeBlock;
 
 
 /**

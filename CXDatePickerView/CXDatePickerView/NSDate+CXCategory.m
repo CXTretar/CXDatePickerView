@@ -110,7 +110,6 @@ static const unsigned componentFlags = (NSCalendarUnitYear| NSCalendarUnitMonth 
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setLocale:[NSLocale currentLocale]];
     [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
-    NSLog(@"%@", [NSTimeZone localTimeZone]);
     [dateFormatter setDateFormat:format];
     NSDate *date = [dateFormatter dateFromString:datestr];
 #if ! __has_feature(objc_arc)

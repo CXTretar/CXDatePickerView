@@ -1,14 +1,13 @@
 //
-//  PickerView.h
-//  BMS
+//  CXDatePickerConfig.h
+//  CXDatePickerView
 //
-//  Created by Felix on 2018/4/10.
-//  Copyright © 2018年 Felix. All rights reserved.
+//  Created by CXTretar on 2020/5/4.
+//  Copyright © 2020 CXTretar. All rights reserved.
 //
 
-#ifndef PickerViewParameter_h
-#define PickerViewParameter_h
-
+#ifndef CXDatePickerConfig_h
+#define CXDatePickerConfig_h
 
 #define kScreenFrame                    ([UIScreen mainScreen].bounds)
 #define kScreenWidth                    (kScreenFrame.size.width)
@@ -42,4 +41,4 @@
 #define MAXYEAR 2099
 #define MINYEAR 1000
 
-#endif /* PickerViewParameter_h */
+#endif /* CXDatePickerConfig_h */

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CAB493AC2441CBAA003D70D1 /* CXDatePickerViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CAB493AB2441CBAA003D70D1 /* CXDatePickerViewManager.m */; };
 		DCA57E7C20E1E25E00090C17 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DCA57E7B20E1E25E00090C17 /* AppDelegate.m */; };
 		DCA57E7F20E1E25E00090C17 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = DCA57E7E20E1E25E00090C17 /* ViewController.m */; };
 		DCA57E8220E1E25E00090C17 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DCA57E8020E1E25E00090C17 /* Main.storyboard */; };
@@ -37,6 +38,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CA41713924603CD400C89869 /* CXDatePickerStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CXDatePickerStyle.h; sourceTree = "<group>"; };
+		CA41713A24603D6500C89869 /* CXDatePickerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CXDatePickerConfig.h; sourceTree = "<group>"; };
+		CAB493AA2441CBAA003D70D1 /* CXDatePickerViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CXDatePickerViewManager.h; sourceTree = "<group>"; };
+		CAB493AB2441CBAA003D70D1 /* CXDatePickerViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CXDatePickerViewManager.m; sourceTree = "<group>"; };
 		DCA57E7720E1E25E00090C17 /* CXDatePickerView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CXDatePickerView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DCA57E7A20E1E25E00090C17 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DCA57E7B20E1E25E00090C17 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -57,7 +62,6 @@
 		DCA57EAD20E1E2AC00090C17 /* CXDatePickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CXDatePickerView.m; sourceTree = "<group>"; };
 		DCA57EB020E1E4D700090C17 /* NSDate+CXCategory.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDate+CXCategory.h"; sourceTree = "<group>"; };
 		DCA57EB120E1E4D700090C17 /* NSDate+CXCategory.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDate+CXCategory.m"; sourceTree = "<group>"; };
-		DCA57EB320E1E71B00090C17 /* PickerViewParameter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickerViewParameter.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,9 +147,12 @@
 		DCA57EAF20E1E41A00090C17 /* CXDatePickerView */ = {
 			isa = PBXGroup;
 			children = (
-				DCA57EB320E1E71B00090C17 /* PickerViewParameter.h */,
+				CA41713924603CD400C89869 /* CXDatePickerStyle.h */,
+				CA41713A24603D6500C89869 /* CXDatePickerConfig.h */,
 				DCA57EAC20E1E2AC00090C17 /* CXDatePickerView.h */,
 				DCA57EAD20E1E2AC00090C17 /* CXDatePickerView.m */,
+				CAB493AA2441CBAA003D70D1 /* CXDatePickerViewManager.h */,
+				CAB493AB2441CBAA003D70D1 /* CXDatePickerViewManager.m */,
 				DCA57EB020E1E4D700090C17 /* NSDate+CXCategory.h */,
 				DCA57EB120E1E4D700090C17 /* NSDate+CXCategory.m */,
 			);
@@ -290,6 +297,7 @@
 				DCA57E7C20E1E25E00090C17 /* AppDelegate.m in Sources */,
 				DCA57EB220E1E4D700090C17 /* NSDate+CXCategory.m in Sources */,
 				DCA57EAE20E1E2AC00090C17 /* CXDatePickerView.m in Sources */,
+				CAB493AC2441CBAA003D70D1 /* CXDatePickerViewManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

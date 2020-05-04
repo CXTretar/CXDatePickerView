@@ -8,20 +8,23 @@
 
 #import "ViewController.h"
 #import "CXDatePickerView.h"
+#import "NSDate+CXCategory.h"
 
 #define RGB(x,y,z) [UIColor colorWithRed:x/255.0 green:y/255.0 blue:z/255.0 alpha:1.0]
-#define RandomColor [UIColor colorWithRed:arc4random()%256/255.0 green:arc4random()%256/255.0 blue:arc4random()%256/255.0 alpha:1]
+#define RandomColor [UIColor colorWithRed:arc4random_uniform(256)/255.0 green:arc4random_uniform(256)/255.0 blue:arc4random_uniform(256)/255.0 alpha:1.0]
 
 @interface CXExample : NSObject
 
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, assign) SEL selector;
+
 @end
 
 
 @implementation CXExample
 
 + (instancetype)exampleWithTitle:(NSString *)title selector:(SEL)selector {
+    ;
     CXExample *example = [[self class] new];
     example.title = title;
     example.selector = selector;
@@ -35,18 +38,17 @@
 
 @property (nonatomic, strong) NSArray<CXExample *> *examples;
 @property (nonatomic, weak) UITableView *tableView;
+@property (nonatomic, strong) NSDate *selectDate;
 
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    
     self.examples = @[
         [CXExample exampleWithTitle:@"年-月-日-时-分" selector:@selector(showYearMonthDayHourMinute:)],
-        [CXExample exampleWithTitle:@"月-日-时-分" selector:@selector(showYearMonthDay:)],
-        [CXExample exampleWithTitle:@"年-月-日" selector:@selector(showYearMonth:)],
+        [CXExample exampleWithTitle:@"月-日-时-分" selector:@selector(showMonthDayHourMinute:)],
+        [CXExample exampleWithTitle:@"年-月-日" selector:@selector(showYearMonthDay:)],
         [CXExample exampleWithTitle:@"日-时-分" selector:@selector(showDayHourMinute:)],
         [CXExample exampleWithTitle:@"天-时-分(00日)" selector:@selector(showZeroDayHourMinute:)],
         [CXExample exampleWithTitle:@"年-月" selector:@selector(showYearMonth:)],
@@ -54,6 +56,11 @@
         [CXExample exampleWithTitle:@"时-分" selector:@selector(showHourMinute:)],
         [CXExample exampleWithTitle:@"指定日期2011-11-11 11:11" selector:@selector(showScrollToDate:)],
     ];
+    
+    //指定日期2011-11-11 11:11
+    NSDateFormatter *dateFormater = [[NSDateFormatter alloc] init];
+    [dateFormater setDateFormat:@"yyyy-MM-dd HH:mm"];
+    self.selectDate = [dateFormater dateFromString:@"2011-11-11 11:11"];
     
     UITableView *tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
     [tableView registerClass:UITableViewCell.class forCellReuseIdentifier:@"CXExampleCell"];
@@ -66,7 +73,7 @@
 
 #pragma mark - 年-月-日-时-分
 - (void)showYearMonthDayHourMinute:(NSIndexPath *)indexPath {
-    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowYearMonthDayHourMinute CompleteBlock:^(NSDate *selectDate) {
+    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateYearMonthDayHourMinute CompleteBlock:^(NSDate *selectDate) {
         
         NSString *dateString = [selectDate cx_stringWithFormat:@"yyyy-MM-dd HH:mm"];
         NSLog(@"选择的日期：%@",dateString);
@@ -86,7 +93,7 @@
 
 #pragma mark - 月-日-时-分
 - (void)showMonthDayHourMinute:(NSIndexPath *)indexPath {
-    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowMonthDayHourMinute CompleteBlock:^(NSDate *selectDate) {
+    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateMonthDayHourMinute CompleteBlock:^(NSDate *selectDate) {
         
         NSString *dateString = [selectDate cx_stringWithFormat:@"MM-dd HH:mm"];
         NSLog(@"选择的日期：%@",dateString);
@@ -103,7 +110,7 @@
 
 #pragma mark - 年-月-日
 - (void)showYearMonthDay:(NSIndexPath *)indexPath {
-    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowYearMonthDay CompleteBlock:^(NSDate *selectDate) {
+    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateYearMonthDay CompleteBlock:^(NSDate *selectDate) {
         
         NSString *dateString = [selectDate cx_stringWithFormat:@"yyyy-MM-dd"];
         NSLog(@"选择的日期：%@",dateString);
@@ -119,7 +126,7 @@
 
 #pragma mark - 日-时-分
 - (void)showDayHourMinute:(NSIndexPath *)indexPath {
-    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowDayHourMinute CompleteBlock:^(NSDate *selectDate) {
+    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateDayHourMinute CompleteBlock:^(NSDate *selectDate) {
         
         NSString *dateString = [selectDate cx_stringWithFormat:@"d日 HH:mm"];
         NSLog(@"选择的日期：%@",dateString);
@@ -154,7 +161,7 @@
 #pragma mark - 年-月
 - (void)showYearMonth:(NSIndexPath *)indexPath {
     //年-月
-    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowYearMonth CompleteBlock:^(NSDate *selectDate) {
+    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateYearMonth CompleteBlock:^(NSDate *selectDate) {
         
         NSString *dateString = [selectDate cx_stringWithFormat:@"yyyy-MM"];
         self.examples[indexPath.row].title = dateString;
@@ -171,7 +178,7 @@
 #pragma mark - 月-日
 - (void)showMonthDay:(NSIndexPath *)indexPath {
     //月-日
-    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowMonthDay CompleteBlock:^(NSDate *selectDate) {
+    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateMonthDay CompleteBlock:^(NSDate *selectDate) {
         
         NSString *dateString = [selectDate cx_stringWithFormat:@"MM-dd"];
         self.examples[indexPath.row].title = dateString;
@@ -187,7 +194,7 @@
 #pragma mark - 时-分
 - (void)showHourMinute:(NSIndexPath *)indexPath {
     //时-分
-    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowHourMinute CompleteBlock:^(NSDate *selectDate) {
+    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateHourMinute CompleteBlock:^(NSDate *selectDate) {
         
         NSString *dateString = [selectDate cx_stringWithFormat:@"HH:mm"];
         NSLog(@"选择的日期：%@",dateString);
@@ -205,13 +212,9 @@
 
 #pragma mark - 指定日期
 - (void)showScrollToDate:(NSIndexPath *)indexPath {
-    //指定日期2011-11-11 11:11
-    NSDateFormatter *minDateFormater = [[NSDateFormatter alloc] init];
-    [minDateFormater setDateFormat:@"yyyy-MM-dd HH:mm"];
-    NSDate *scrollToDate = [minDateFormater dateFromString:@"2011-11-11 11:11"];
     
-    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateStyleShowYearMonthDayHourMinute scrollToDate:scrollToDate CompleteBlock:^(NSDate *selectDate) {
-        
+    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateYearMonthDayHourMinute scrollToDate:self.selectDate CompleteBlock:^(NSDate *selectDate) {
+        self.selectDate = selectDate;
         NSString *dateString = [selectDate cx_stringWithFormat:@"yyyy-MM-dd HH:mm"];
         NSLog(@"选择的日期：%@",dateString);
         self.examples[indexPath.row].title = dateString;
@@ -228,7 +231,7 @@
     datepicker.cancelButtonFont = [UIFont systemFontOfSize:19];
     datepicker.hideSegmentedLine = YES;  //
     datepicker.hideDateNameLabel = YES;
-    
+    datepicker.hideBackgroundYearLabel = YES;
     [datepicker show];
 }
 
@@ -257,7 +260,6 @@
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
     [self performSelector:example.selector withObject:indexPath];
 #pragma clang diagnostic pop
-    
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
     });
