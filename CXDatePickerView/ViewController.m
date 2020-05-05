@@ -54,6 +54,7 @@
         [CXExample exampleWithTitle:@"天-时-分(00日)" selector:@selector(showZeroDayHourMinute:)],
         [CXExample exampleWithTitle:@"年-月" selector:@selector(showYearMonth:)],
         [CXExample exampleWithTitle:@"月-日" selector:@selector(showMonthDay:)],
+        [CXExample exampleWithTitle:@"时-分-秒" selector:@selector(showHourMinuteSecond:)],
         [CXExample exampleWithTitle:@"时-分" selector:@selector(showHourMinute:)],
         [CXExample exampleWithTitle:@"指定日期2011-11-11 11:11" selector:@selector(showScrollToDate:)],
     ];
@@ -211,6 +212,24 @@
     datepicker.datePickerColor = RandomColor;//滚轮日期颜色
     datepicker.doneButtonColor = RandomColor;//确定按钮的颜色
     datepicker.cancelButtonColor = datepicker.doneButtonColor;
+    [datepicker show];
+}
+
+#pragma mark - 时-分-秒
+- (void)showHourMinuteSecond:(NSIndexPath *)indexPath {
+    //时-分
+    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateHourMinuteSecond CompleteBlock:^(NSDate *selectDate) {
+        
+        NSString *dateString = [selectDate cx_stringWithFormat:@"HH:mm:ss"];
+        NSLog(@"选择的日期：%@",dateString);
+        self.examples[indexPath.row].title = dateString;
+        [self.tableView reloadData];
+    }];
+    datepicker.dateLabelColor = RandomColor;//年-月-日-时-分 颜色
+    datepicker.datePickerColor = RandomColor;//滚轮日期颜色
+    datepicker.doneButtonColor = RandomColor;//确定按钮的颜色
+    datepicker.yearLabelColor = [UIColor cyanColor];//大号年份字体颜色
+    datepicker.cancelButtonColor = [UIColor redColor];
     [datepicker show];
 }
 

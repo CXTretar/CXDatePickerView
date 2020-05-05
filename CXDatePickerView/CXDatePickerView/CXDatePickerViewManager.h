@@ -19,8 +19,6 @@
 @property(nonatomic, strong) NSMutableArray *minuteArray;
 @property(nonatomic, strong) NSMutableArray *secondArray;
 
-@property(nonatomic, copy) NSArray *indexArray;
-
 @property(nonatomic, assign) NSInteger yearIndex;
 @property(nonatomic, assign) NSInteger monthIndex;
 @property(nonatomic, assign) NSInteger dayIndex;

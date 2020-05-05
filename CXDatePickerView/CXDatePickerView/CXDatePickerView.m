@@ -495,6 +495,17 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
                 title = self.manager.dayArray[row];
             }
             break;
+        case CXDateHourMinuteSecond:
+            if (component==0) {
+                title = self.manager.hourArray[row];
+            }
+            if (component==1) {
+                title = self.manager.minuteArray[row];
+            }
+            if (component==2) {
+                title = self.manager.secondArray[row];
+            }
+            break;
         case CXDateHourMinute:
             if (component==0) {
                 title = self.manager.hourArray[row];
@@ -670,6 +681,19 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
                 }
             }
             [self.manager refreshDayArray];
+        }
+            break;
+            
+        case CXDateHourMinuteSecond:{
+            if (component == 0) {
+                self.manager.hourIndex = row;
+            }
+            if (component == 1) {
+                self.manager.minuteIndex = row;
+            }
+            if (component == 1) {
+                self.manager.secondIndex = row;
+            }
         }
             break;
             
