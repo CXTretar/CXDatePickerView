@@ -20,8 +20,8 @@ typedef NS_ENUM(NSUInteger, CXDatePickerStyle) {
     CXDateDayHourMinute, //日时分
     CXDateYearMonth,//年月
     CXDateMonthDay,//月日
+    CXDateHourMinuteSecond,//时分秒
     CXDateHourMinute//时分
-   
 };
 
 #endif /* CXDatePickerStyle_h */

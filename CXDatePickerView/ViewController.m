@@ -87,6 +87,8 @@
     datepicker.doneButtonColor = [UIColor whiteColor]; // 确认按钮字体颜色
     datepicker.cancelButtonColor = [UIColor whiteColor]; // 取消按钮颜色
     datepicker.shadeViewAlphaWhenShow = 0.25;
+    datepicker.headerTitle = @"选择日期";
+    datepicker.headerTitleColor = [UIColor whiteColor];
     datepicker.minLimitDate = [NSDate cx_date:@"2019-12-1 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
     datepicker.maxLimitDate = [NSDate cx_date:@"2019-12-26 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
     [datepicker show];

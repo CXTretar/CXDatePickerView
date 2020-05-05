@@ -23,6 +23,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 @property (nonatomic, copy) doneBlock doneBlock;
 @property (nonatomic, copy) doneZeroDayBlock doneZeroDayBlock;
 @property (nonatomic, strong) UILabel *backYearView;
+@property (nonatomic, weak) UILabel *headerTitleLabel;
 @property (nonatomic, weak) UIButton *confirmButton;
 @property (nonatomic, weak) UIButton *cancelButton;
 
@@ -62,6 +63,21 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         return;
     }
     self.backYearView.textColor = yearLabelColor;
+}
+
+- (void)setHeaderTitle:(NSString *)headerTitle {
+    _headerTitle = headerTitle;
+    self.headerTitleLabel.text = headerTitle;
+}
+
+- (void)setHeaderTitleFont:(UIFont *)headerTitleFont {
+    _headerTitleFont = headerTitleFont;
+    self.headerTitleLabel.font = headerTitleFont;
+}
+
+- (void)setHeaderTitleColor:(UIColor *)headerTitleColor {
+    _headerTitleColor = headerTitleColor;
+    self.headerTitleLabel.textColor = headerTitleColor;
 }
 
 - (void)setHideBackgroundYearLabel:(BOOL)hideBackgroundYearLabel {
@@ -267,6 +283,12 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     _headerView.backgroundColor = [UIColor whiteColor];
     [self.buttomView addSubview:_headerView];
     
+    UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth - 70 * 2, PickerHeaderHeight)];
+    titleLabel.textAlignment = NSTextAlignmentCenter;
+    titleLabel.center = self.headerView.center;
+    self.headerTitleLabel = titleLabel;
+    [_headerView addSubview:titleLabel];
+    
     CGRect cancelButtonFrame  = CGRectMake(15, 0, 60, PickerHeaderHeight);
     CGRect confirmButtonFrame = CGRectMake(PickerBackViewWeight - 60 - 15, 0, 60, PickerHeaderHeight);
     
@@ -383,7 +405,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     NSString *title;
     
     switch (self.manager.datePickerStyle) {
-            case CXDateYearMonthDayHourMinuteSecond:
+        case CXDateYearMonthDayHourMinuteSecond:
             if (component == 0) {
                 title = self.manager.yearArray[row];
             }
@@ -502,35 +524,35 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     switch (self.manager.datePickerStyle) {
-            case CXDateYearMonthDayHourMinuteSecond:{
-                if (component == 0) {
-                    self.manager.yearIndex = row;
-                    self.backYearView.text = self.manager.yearArray[row];
-                }
-                if (component == 1) {
-                    self.manager.monthIndex = row;
-                }
-                if (component == 2) {
-                    self.manager.dayIndex = row;
-                }
-                if (component == 3) {
-                    self.manager.hourIndex = row;
-                }
-                if (component == 4) {
-                    self.manager.minuteIndex = row;
-                }
-                if (component == 5) {
-                    self.manager.secondIndex = row;
-                }
-                if (component == 0 || component == 1){
-                    [self.manager refreshDayArray];
-                    if (self.manager.dayArray.count - 1 < self.manager.dayIndex) {
-                        self.manager.dayIndex = self.manager.dayArray.count - 1;
-                    }
-                    
-                }
+        case CXDateYearMonthDayHourMinuteSecond:{
+            if (component == 0) {
+                self.manager.yearIndex = row;
+                self.backYearView.text = self.manager.yearArray[row];
             }
-                break;
+            if (component == 1) {
+                self.manager.monthIndex = row;
+            }
+            if (component == 2) {
+                self.manager.dayIndex = row;
+            }
+            if (component == 3) {
+                self.manager.hourIndex = row;
+            }
+            if (component == 4) {
+                self.manager.minuteIndex = row;
+            }
+            if (component == 5) {
+                self.manager.secondIndex = row;
+            }
+            if (component == 0 || component == 1){
+                [self.manager refreshDayArray];
+                if (self.manager.dayArray.count - 1 < self.manager.dayIndex) {
+                    self.manager.dayIndex = self.manager.dayArray.count - 1;
+                }
+                
+            }
+        }
+            break;
         case CXDateYearMonthDayHourMinute:{
             if (component == 0) {
                 self.manager.yearIndex = row;

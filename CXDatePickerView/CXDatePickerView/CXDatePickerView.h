@@ -25,7 +25,18 @@
  *  头部视图背景颜色
  */
 @property (nonatomic, strong) UIColor *headerViewColor; // 默认白色
-
+/**
+ *  头部标题颜色
+ */
+@property (nonatomic, strong) UIColor *headerTitleColor;
+/**
+ *  头部标题文字
+ */
+@property (nonatomic, copy) NSString *headerTitle;
+/**
+ *  头部标题字体
+ */
+@property (nonatomic, strong) UIFont *headerTitleFont;
 /**
  *  确定按钮颜色
  */
