@@ -1,5 +1,6 @@
 # CXDatePickerView
-![自定义日期选择器](http://ww1.sinaimg.cn/large/94f847dagy1gehf6qyzqoj20yi22ojwd.jpg)
+![自定义日期选择器](https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/1.png)
+
 # Update【更新】
 version: 0.2.0
 - 增加了秒选项。
