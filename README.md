@@ -2,14 +2,14 @@
 ![自定义日期选择器](https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/new.png)
 
 # Update【更新】
-version: 0.2.0
+version: 0.2.2
 - 增加了秒选项。
 - 代码逻辑分离，便于扩展。
 - 增加了标题文本框。
 - 修复了已知Bug，修改了分类。
 
 # Install【安装】
-在Podfile文件中添加`pod 'CXDatePickerView'`，并运行 `pod install`
+在Podfile文件中添加` pod 'CXDatePickerView', '~> 0.2.2'`，并运行 `pod install`
 # Usage【使用】
 * import【导入框架】
 `#import "CXDatePickerView.h"`
