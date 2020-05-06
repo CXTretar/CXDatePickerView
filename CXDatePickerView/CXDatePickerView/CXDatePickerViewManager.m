@@ -175,6 +175,7 @@
 }
 
 - (void)refreshDayArray {
+    NSLog(@"yearIndex -- %@ -- %@", self.yearArray[self.yearIndex], self.monthArray[self.monthIndex]);
     [self daysFromYear:[self.yearArray[self.yearIndex] integerValue] andMonth:[self.monthArray[self.monthIndex] integerValue]];
 }
 
@@ -193,12 +194,16 @@
         case 12: {
             [self setdayArray:31];
         }
+        break;
+            
         case 4:
         case 6:
         case 9:
         case 11: {
             [self setdayArray:30];
         }
+        break;
+            
         case 2:{
             if (isLeapYear) {
                 [self setdayArray:29];
@@ -206,6 +211,8 @@
                 [self setdayArray:28];
             }
         }
+            break;
+            
         default:
             break;
     }
@@ -220,6 +227,7 @@
     if (self.isZeroDay) {
         [self.dayArray insertObject:@"00" atIndex:0];
     }
+    
 }
 
 
