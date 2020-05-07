@@ -121,13 +121,13 @@
 /**
  默认滚动到当前时间
  */
-- (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle CompleteBlock:(void(^)(NSDate *date))completeBlock;
+- (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle completeBlock:(void(^)(NSDate *date))completeBlock;
 
 
 /**
  滚动到指定的的日期
  */
-- (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate CompleteBlock:(void(^)(NSDate *date))completeBlock;
+- (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate completeBlock:(void(^)(NSDate *date))completeBlock;
 
 
 /**

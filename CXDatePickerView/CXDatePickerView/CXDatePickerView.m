@@ -11,7 +11,7 @@
 #import "CXDatePickerViewManager.h"
 #import "NSDate+CXCategory.h"
 
-typedef void(^doneBlock)(NSDate *);
+typedef void(^doneBlock)(NSDate *date);
 typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes);
 
 @interface CXDatePickerView()<UIPickerViewDelegate,UIPickerViewDataSource,UIGestureRecognizerDelegate>
@@ -199,7 +199,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 
 
 #pragma mark - 默认滚动到当前时间
-- (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle CompleteBlock:(void(^)(NSDate *date))completeBlock {
+- (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle completeBlock:(void(^)(NSDate *date))completeBlock {
     if (self = [super init]) {
         self.manager = [[CXDatePickerViewManager alloc] initWithDateStyle:datePickerStyle scrollToDate:nil];
         [self setupUI];
@@ -213,7 +213,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 }
 
 #pragma mark - 滚动到指定的的日期
-- (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate CompleteBlock:(void(^)(NSDate *))completeBlock {
+- (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate completeBlock:(void(^)(NSDate *))completeBlock {
     if (self = [super init]) {
         
         self.manager = [[CXDatePickerViewManager alloc] initWithDateStyle:datePickerStyle scrollToDate:scrollToDate];
@@ -443,74 +443,74 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
             }
             break;
         case CXDateYearMonthDay:
-            if (component==0) {
+            if (component == 0) {
                 title = self.manager.yearArray[row];
             }
-            if (component==1) {
+            if (component == 1) {
                 title =  self.manager.monthArray[row];
             }
-            if (component==2) {
+            if (component == 2) {
                 title =  self.manager.dayArray[row];
             }
             break;
         case CXDateDayHourMinute:
-            if (component==0) {
+            if (component == 0) {
                 title = self.manager.dayArray[row];
             }
-            if (component==1) {
+            if (component == 1) {
                 title = self.manager.hourArray[row];
             }
-            if (component==2) {
+            if (component == 2) {
                 title = self.manager.minuteArray[row];
             }
             break;
         case CXDateYearMonth:
             
-            if (component==0) {
+            if (component == 0) {
                 title =  self.manager.yearArray[row];
             }
-            if (component==1) {
+            if (component == 1) {
                 title = self.manager.monthArray[row];
             }
             break;
         case CXDateMonthDayHourMinute:
-            if (component==0) {
+            if (component == 0) {
                 title = self.manager.monthArray[row % 12];
             }
-            if (component==1) {
+            if (component == 1) {
                 title = self.manager.dayArray[row];
             }
-            if (component==2) {
+            if (component == 2) {
                 title = self.manager.hourArray[row];
             }
-            if (component==3) {
+            if (component == 3) {
                 title = self.manager.minuteArray[row];
             }
             break;
         case CXDateMonthDay:
-            if (component==0) {
+            if (component == 0) {
                 title = self.manager.monthArray[row%12];
             }
-            if (component==1) {
+            if (component == 1) {
                 title = self.manager.dayArray[row];
             }
             break;
         case CXDateHourMinuteSecond:
-            if (component==0) {
+            if (component == 0) {
                 title = self.manager.hourArray[row];
             }
-            if (component==1) {
+            if (component == 1) {
                 title = self.manager.minuteArray[row];
             }
-            if (component==2) {
+            if (component == 2) {
                 title = self.manager.secondArray[row];
             }
             break;
         case CXDateHourMinute:
-            if (component==0) {
+            if (component == 0) {
                 title = self.manager.hourArray[row];
             }
-            if (component==1) {
+            if (component == 1) {
                 title = self.manager.minuteArray[row];
             }
             break;
@@ -691,7 +691,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
             if (component == 1) {
                 self.manager.minuteIndex = row;
             }
-            if (component == 1) {
+            if (component == 2) {
                 self.manager.secondIndex = row;
             }
         }

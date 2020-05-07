@@ -43,7 +43,7 @@
 
 - (void)setDatePickerStyle:(CXDatePickerStyle)datePickerStyle {
     _datePickerStyle = datePickerStyle;
-    switch (datePickerStyle) {
+    switch (datePickerStyle) { 
         case CXDateYearMonthDayHourMinuteSecond:
             _dateFormatter = @"yyyy-MM-dd HH:mm:ss";
             _unitArray = @[@"年",@"月",@"日",@"时",@"分",@"秒"].copy;
