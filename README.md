@@ -2,7 +2,7 @@
 ![自定义日期选择器](https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/new.png)
 
 # Update【更新】
-version: 0.2.2
+version: 0.2.3
 - 增加了秒选项。
 - 代码逻辑分离，便于扩展。
 - 增加了标题文本框。
@@ -20,12 +20,12 @@ version: 0.2.2
   /**
  默认滚动到当前时间
  */
-- (instancetype)initWithDateStyle:(CXDateStyle)datePickerStyle CompleteBlock:(void(^)(NSDate *date))completeBlock;
+- (instancetype)initWithDateStyle:(CXDateStyle)datePickerStyle completeBlock:(void(^)(NSDate *date))completeBlock;
 
 /**
  滚动到指定的的日期
  */
-- (instancetype)initWithDateStyle:(CXDateStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate CompleteBlock:(void(^)(NSDate *date))completeBlock;
+- (instancetype)initWithDateStyle:(CXDateStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate completeBlock:(void(^)(NSDate *date))completeBlock;
 ```
 * style【选择器样式】
 
@@ -158,7 +158,7 @@ typedef NS_ENUM(NSUInteger, CXDatePickerStyle) {
 ```
 #pragma mark - 年-月-日-时-分-秒
 - (void)showYearMonthDayHourMinuteSecond:(NSIndexPath *)indexPath {
-    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateYearMonthDayHourMinuteSecond CompleteBlock:^(NSDate *selectDate) {
+    CXDatePickerView *datepicker = [[CXDatePickerView alloc] initWithDateStyle:CXDateYearMonthDayHourMinuteSecond completeBlock:^(NSDate *selectDate) {
         
         NSString *dateString = [selectDate cx_stringWithFormat:@"yyyy-MM-dd HH:mm:ss"];
         NSLog(@"选择的日期：%@",dateString);
@@ -177,4 +177,5 @@ typedef NS_ENUM(NSUInteger, CXDatePickerStyle) {
     datepicker.maxLimitDate = [NSDate cx_date:@"2019-12-26 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
     [datepicker show];
 }
+
 ```
