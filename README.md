@@ -15,17 +15,23 @@ version: 0.2.3
 `#import "CXDatePickerView.h"`
 
 * init【创建选择器】
-
-```  
-  /**
+```
+/**
  默认滚动到当前时间
  */
-- (instancetype)initWithDateStyle:(CXDateStyle)datePickerStyle completeBlock:(void(^)(NSDate *date))completeBlock;
+- (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle completeBlock:(void(^)(NSDate *date))completeBlock;
+
 
 /**
  滚动到指定的的日期
  */
-- (instancetype)initWithDateStyle:(CXDateStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate completeBlock:(void(^)(NSDate *date))completeBlock;
+- (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate completeBlock:(void(^)(NSDate *date))completeBlock;
+
+
+/**
+  定制天时分选择器
+ */
+- (instancetype)initWithZeroDayCompleteBlock:(void(^)(NSInteger days,NSInteger hours,NSInteger minutes))completeBlock;
 ```
 * style【选择器样式】
 
