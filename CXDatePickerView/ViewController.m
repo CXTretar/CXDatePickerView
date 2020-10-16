@@ -91,7 +91,7 @@
     datepicker.headerTitle = @"选择日期";
     datepicker.headerTitleColor = [UIColor whiteColor];
     datepicker.minLimitDate = [NSDate cx_date:@"2019-12-1 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
-    datepicker.maxLimitDate = [NSDate cx_date:@"2019-12-26 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    datepicker.maxLimitDate = [NSDate cx_date:@"2022-12-26 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
     [datepicker show];
 }
 

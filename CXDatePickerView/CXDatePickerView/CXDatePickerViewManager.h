@@ -49,7 +49,7 @@
 @property(nonatomic, strong) UILabel *backYearView;
 
 @property(nonatomic, copy) NSArray *unitArray;
-
+@property(nonatomic, copy) NSArray *indexArray;
 @property(nonatomic, strong) NSDate *currentDate;
 
 - (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate;

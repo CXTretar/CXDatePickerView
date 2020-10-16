@@ -27,7 +27,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 @property (nonatomic, weak) UIButton *confirmButton;
 @property (nonatomic, weak) UIButton *cancelButton;
 
-@property(nonatomic, strong) CXDatePickerViewManager *manager;
+@property (nonatomic, strong) CXDatePickerViewManager *manager;
 
 @end
 
@@ -394,7 +394,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
 }
 
 
--(UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view {
     UILabel *customLabel = (UILabel *)view;
     if (!customLabel) {
         customLabel = [[UILabel alloc] init];
@@ -518,22 +518,33 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
             title = @"";
             break;
     }
-    
     customLabel.text = title;
-    
     customLabel.textColor = self.datePickerColor;
     customLabel.font = self.datePickerFont;
     
-    if (_hideSegmentedLine) {
-        ((UIView *)[self.datePicker.subviews objectAtIndex:1]).backgroundColor = [UIColor clearColor];
-        ((UIView *)[self.datePicker.subviews objectAtIndex:2]).backgroundColor = [UIColor clearColor];
+    if (self.manager.indexArray.count) {
+        for (int i = 0; i < self.manager.indexArray.count; i++) {
+            if (component == i && [self.manager.indexArray[i] intValue] == row) {
+                customLabel.textColor = [UIColor redColor];
+                customLabel.font = [UIFont systemFontOfSize:17];
+            }
+        }
     }
     
+    if(_hideSegmentedLine) {
+        for (UIView *view in self.datePicker.subviews) {
+            if (view.frame.size.height <= 1) {
+                view.backgroundColor = UIColor.clearColor;
+            }
+        }
+    }
     return customLabel;
     
 }
 
+
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    
     switch (self.manager.datePickerStyle) {
         case CXDateYearMonthDayHourMinuteSecond:{
             if (component == 0) {
@@ -560,7 +571,6 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
                 if (self.manager.dayArray.count - 1 < self.manager.dayIndex) {
                     self.manager.dayIndex = self.manager.dayArray.count - 1;
                 }
-                
             }
         }
             break;

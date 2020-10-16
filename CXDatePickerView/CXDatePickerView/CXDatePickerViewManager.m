@@ -117,6 +117,44 @@
     return self.secondArray.count;
 }
 
+- (NSArray *)indexArray {
+    NSArray *indexArray = @[].copy;
+    
+    switch (self.datePickerStyle) {
+        case CXDateYearMonthDayHourMinuteSecond:
+            indexArray = @[@(self.yearIndex),@(self.monthIndex),@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex),@(self.secondIndex)];
+            break;
+        case CXDateYearMonthDayHourMinute:
+            indexArray = @[@(self.yearIndex),@(self.monthIndex),@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex)];
+            break;
+        case CXDateMonthDayHourMinute:
+            indexArray = @[@(self.monthIndex),@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex)];
+            break;
+        case CXDateYearMonthDay:
+            indexArray = @[@(self.yearIndex),@(self.monthIndex),@(self.dayIndex)];
+            break;
+        case CXDateDayHourMinute:
+            indexArray = @[@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex)];
+            break;
+        case CXDateYearMonth:
+            indexArray = @[@(self.yearIndex),@(self.monthIndex)];
+            break;
+        case CXDateMonthDay:
+            indexArray = @[@(self.monthIndex),@(self.dayIndex)];
+            break;
+        case CXDateHourMinuteSecond:
+            indexArray = @[@(self.hourIndex),@(self.minuteIndex),@(self.secondIndex)];
+            break;
+        case CXDateHourMinute:
+            indexArray = @[@(self.hourIndex),@(self.minuteIndex)];
+            break;
+            
+        default:
+            break;
+    }
+    return indexArray;
+}
+
 #pragma mark - 构造方法
 - (instancetype)initWithDateStyle:(CXDatePickerStyle)datePickerStyle scrollToDate:(NSDate *)scrollToDate {
     if (self = [super init]) {
@@ -256,54 +294,57 @@
     //循环滚动时需要用到
     self.preRow = (self.scrollToDate.cx_year - MINYEAR) * 12 + self.scrollToDate.cx_month - 1;
     
-    NSArray *indexArray = @[].copy;
-    
-    switch (self.datePickerStyle) {
-        case CXDateYearMonthDayHourMinuteSecond:
-            indexArray = @[@(self.yearIndex),@(self.monthIndex),@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex),@(self.secondIndex)];
-            break;
-        case CXDateYearMonthDayHourMinute:
-            indexArray = @[@(self.yearIndex),@(self.monthIndex),@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex)];
-            break;
-        case CXDateMonthDayHourMinute:
-            indexArray = @[@(self.monthIndex),@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex)];
-            break;
-        case CXDateYearMonthDay:
-            indexArray = @[@(self.yearIndex),@(self.monthIndex),@(self.dayIndex)];
-            break;
-        case CXDateDayHourMinute:
-            indexArray = @[@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex)];
-            break;
-        case CXDateYearMonth:
-            indexArray = @[@(self.yearIndex),@(self.monthIndex)];
-            break;
-        case CXDateMonthDay:
-            indexArray = @[@(self.monthIndex),@(self.dayIndex)];
-            break;
-        case CXDateHourMinuteSecond:
-            indexArray = @[@(self.hourIndex),@(self.minuteIndex),@(self.secondIndex)];
-            break;
-        case CXDateHourMinute:
-            indexArray = @[@(self.hourIndex),@(self.minuteIndex)];
-            break;
-            
-        default:
-            break;
-    }
+//    NSArray *indexArray = @[].copy;
+//
+//    switch (self.datePickerStyle) {
+//        case CXDateYearMonthDayHourMinuteSecond:
+//            indexArray = @[@(self.yearIndex),@(self.monthIndex),@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex),@(self.secondIndex)];
+//            break;
+//        case CXDateYearMonthDayHourMinute:
+//            indexArray = @[@(self.yearIndex),@(self.monthIndex),@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex)];
+//            break;
+//        case CXDateMonthDayHourMinute:
+//            indexArray = @[@(self.monthIndex),@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex)];
+//            break;
+//        case CXDateYearMonthDay:
+//            indexArray = @[@(self.yearIndex),@(self.monthIndex),@(self.dayIndex)];
+//            break;
+//        case CXDateDayHourMinute:
+//            indexArray = @[@(self.dayIndex),@(self.hourIndex),@(self.minuteIndex)];
+//            break;
+//        case CXDateYearMonth:
+//            indexArray = @[@(self.yearIndex),@(self.monthIndex)];
+//            break;
+//        case CXDateMonthDay:
+//            indexArray = @[@(self.monthIndex),@(self.dayIndex)];
+//            break;
+//        case CXDateHourMinuteSecond:
+//            indexArray = @[@(self.hourIndex),@(self.minuteIndex),@(self.secondIndex)];
+//            break;
+//        case CXDateHourMinute:
+//            indexArray = @[@(self.hourIndex),@(self.minuteIndex)];
+//            break;
+//
+//        default:
+//            break;
+//    }
+//
     
     self.backYearView.text = self.yearArray[self.yearIndex];
     [self.datePicker reloadAllComponents];
-    
+//    self.indexArray = indexArray.copy;
     if (!self.datePicker.numberOfComponents) return;
     
-    for (int i = 0; i < indexArray.count; i++) {
+    for (int i = 0; i < self.indexArray.count; i++) {
         if ((self.datePickerStyle == CXDateMonthDayHourMinute || self.datePickerStyle == CXDateMonthDay) && i==0) {
-            NSInteger mIndex = [indexArray[i] integerValue] + (12 * (self.scrollToDate.cx_year - MINYEAR));
+            NSInteger mIndex = [self.indexArray[i] integerValue] + (12 * (self.scrollToDate.cx_year - MINYEAR));
             [self.datePicker selectRow:mIndex inComponent:i animated:animated];
         } else {
-            [self.datePicker selectRow:[indexArray[i] integerValue] inComponent:i animated:animated];
+            [self.datePicker selectRow:[self.indexArray[i] integerValue] inComponent:i animated:animated];
         }
     }
+    
+    
 }
 
 #pragma mark - 年份变化
@@ -376,7 +417,6 @@
             return @[];
             break;
     }
-    
 }
 
 @end
