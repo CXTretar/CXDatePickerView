@@ -350,7 +350,7 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     }
     
     for (int i = 0; i < nameArr.count; i++) {
-        CGFloat labelX = PickerWeight/(nameArr.count * 2) + 15 + PickerWeight / nameArr.count * i;
+        CGFloat labelX = PickerWeight/(nameArr.count * 2) + 10 + PickerWeight / nameArr.count * i;
         if (i == 0 && [self.manager.unitArray containsObject:@"年"]) {
             labelX = PickerWeight/(nameArr.count * 2) + 20;
         }

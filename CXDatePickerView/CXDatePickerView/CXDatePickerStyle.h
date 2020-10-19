@@ -26,10 +26,10 @@ typedef NS_ENUM(NSUInteger, CXDatePickerStyle) {
 
 
 /**
- *  弹出日期文本显示类型
+ *  弹出日期单位显示类型
  */
 typedef NS_ENUM(NSUInteger, CXDateLabelUnitStyle) {
-    CXDateLabelUnitFixed = 0,          // 添加固定位置的日期单位
+    CXDateLabelUnitFixed = 0,              // 添加固定位置的日期单位
     CXDateLabelTextAllUnit,                // 添加所有日期的日期单位
     CXDateLabelTextSelectUnit,             // 添加选中日期的日期单位
 };
