@@ -3,10 +3,10 @@
 #该脚本仅适用于cocoapods生成的framework静态库
 frameworkName='CXDatePickerView'
 #修改
-oldversion='0.2.2'
+oldversion='0.2.3'
 #修改
-version='0.2.3'
-message=' 修复时分秒显示错误'
+version='0.2.4'
+message=' 适配ios 14,增加一些小功能,修复bug'
 
 #本地校验
 pod lib lint ${frameworkName}.podspec --verbose --use-libraries --allow-warnings
