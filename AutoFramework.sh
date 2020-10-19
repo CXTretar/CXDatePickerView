@@ -6,7 +6,7 @@ frameworkName='CXDatePickerView'
 oldversion='0.2.3'
 #修改
 version='0.2.4'
-message=' 适配ios 14,增加一些小功能,修复bug'
+message='适配ios14,增加一些小功能,修复bug'
 
 #本地校验
 pod lib lint ${frameworkName}.podspec --verbose --use-libraries --allow-warnings
