@@ -1,5 +1,9 @@
 # CXDatePickerView
-![自定义日期选择器](https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/new.png)
+
+<div>
+<img src="https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/version_0.2.5.1.png" hspace="20" width = "414" height = "896" alt="" align=center />
+<img src="https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/version_0.2.5.2.png" hspace="20" width = "414" height = "896" alt="" align=center />
+</div>
 
 # Update【更新】
 version: 0.2.5
