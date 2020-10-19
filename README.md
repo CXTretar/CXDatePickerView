@@ -1,8 +1,8 @@
 # CXDatePickerView
 
 <div>
-<img src="https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/version_0.2.5.1.png" hspace="20" width = "414" height = "896" alt="" align=center />
-<img src="https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/version_0.2.5.2.png" width = "414" height = "896" alt="" align=center />
+<img src="https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/version_0.2.5.1.png" hspace="10" width = "414" height = "896" alt="" align=center />
+<img src="https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/version_0.2.5.2.png" hspace="10" width = "414" height = "896" alt="" align=center />
 </div>
 
 # Update【更新】
