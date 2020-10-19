@@ -82,10 +82,8 @@
         self.examples[indexPath.row].title = dateString;
         [self.tableView reloadData];
     }];
-    datepicker.dateLabelColor = [UIColor orangeColor];//年-月-日-时-分-秒 颜色
+    datepicker.dateUnitLabelColor = [UIColor orangeColor];//年-月-日-时-分-秒 颜色
     datepicker.datePickerColor = [UIColor blackColor];//滚轮日期颜色
-    datepicker.datePickerSelectColor = [UIColor orangeColor];
-    datepicker.datePickerSelectFont = [UIFont systemFontOfSize:18];
     datepicker.headerViewColor = [UIColor orangeColor]; // 顶部视图背景颜色
     datepicker.doneButtonColor = [UIColor whiteColor]; // 确认按钮字体颜色
     datepicker.cancelButtonColor = [UIColor whiteColor]; // 取消按钮颜色
@@ -94,6 +92,8 @@
     datepicker.headerTitleColor = [UIColor whiteColor];
     datepicker.minLimitDate = [NSDate cx_date:@"2019-12-1 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
     datepicker.maxLimitDate = [NSDate cx_date:@"2022-12-26 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    datepicker.datePickerSelectColor = [UIColor orangeColor];
+    datepicker.datePickerSelectFont = [UIFont systemFontOfSize:17];
     [datepicker show];
 }
 
@@ -106,14 +106,17 @@
         self.examples[indexPath.row].title = dateString;
         [self.tableView reloadData];
     }];
-    datepicker.dateLabelColor = [UIColor orangeColor];//年-月-日-时-分 颜色
+    datepicker.dateLabelUnitStyle = CXDateLabelTextAllUnit;
+    datepicker.dateUnitLabelColor = [UIColor orangeColor];//年-月-日-时-分 颜色
     datepicker.datePickerColor = [UIColor blackColor];//滚轮日期颜色
+    datepicker.datePickerSelectColor = [UIColor orangeColor];
+    datepicker.datePickerSelectFont = [UIFont systemFontOfSize:18];
     datepicker.headerViewColor = [UIColor orangeColor]; // 顶部视图背景颜色
     datepicker.doneButtonColor = [UIColor whiteColor]; // 确认按钮字体颜色
     datepicker.cancelButtonColor = [UIColor whiteColor]; // 取消按钮颜色
     datepicker.shadeViewAlphaWhenShow = 0.25;
     datepicker.minLimitDate = [NSDate cx_date:@"2019-12-1 12:45" WithFormat:@"yyyy-MM-dd HH:mm"];
-    datepicker.maxLimitDate = [NSDate cx_date:@"2019-12-26 12:45" WithFormat:@"yyyy-MM-dd HH:mm"];
+    datepicker.maxLimitDate = [NSDate cx_date:@"2025-12-26 12:45" WithFormat:@"yyyy-MM-dd HH:mm"];
     [datepicker show];
 }
 
@@ -126,11 +129,13 @@
         self.examples[indexPath.row].title = dateString;
         [self.tableView reloadData];
     }];
-    datepicker.dateLabelColor = [UIColor purpleColor];//年-月-日-时-分 颜色
+    datepicker.dateUnitLabelColor = [UIColor purpleColor];//年-月-日-时-分 颜色
     datepicker.datePickerColor = [UIColor blackColor];//滚轮日期颜色
     datepicker.doneButtonColor = [UIColor purpleColor];//确定按钮的颜色
     datepicker.hideBackgroundYearLabel = YES;//隐藏背景年份文字
     datepicker.cancelButtonColor = datepicker.doneButtonColor;
+    datepicker.datePickerSelectColor = [UIColor orangeColor];
+    datepicker.dateLabelUnitStyle = CXDateLabelTextSelectUnit;
     [datepicker show];
 }
 
@@ -143,7 +148,8 @@
         self.examples[indexPath.row].title = dateString;
         [self.tableView reloadData];
     }];
-    datepicker.dateLabelColor = RandomColor;//年-月-日-时-分 颜色
+    datepicker.dateUnitLabelFont = [UIFont systemFontOfSize:13];
+    datepicker.dateUnitLabelColor = RandomColor;//年-月-日-时-分 颜色
     datepicker.datePickerColor = RandomColor;//滚轮日期颜色
     datepicker.doneButtonColor = RandomColor;//确定按钮的颜色
     datepicker.cancelButtonColor = datepicker.doneButtonColor;
@@ -159,10 +165,11 @@
         self.examples[indexPath.row].title = dateString;
         [self.tableView reloadData];
     }];
-    datepicker.dateLabelColor = RandomColor;//年-月-日-时-分 颜色
+    datepicker.dateUnitLabelColor = RandomColor;//年-月-日-时-分 颜色
     datepicker.datePickerColor = RandomColor;//滚轮日期颜色
     datepicker.doneButtonColor = RandomColor;//确定按钮的颜色
     datepicker.cancelButtonColor = datepicker.doneButtonColor;
+    datepicker.datePickerSelectColor = [UIColor orangeColor];
     [datepicker show];
 }
 
@@ -176,11 +183,12 @@
         [self.tableView reloadData];
     }];
     
-    datepicker.dateLabelColor = RandomColor;//年-月-日-时-分 颜色
+    datepicker.dateUnitLabelColor = RandomColor;//年-月-日-时-分 颜色
     datepicker.datePickerColor = RandomColor;//滚轮日期颜色
     datepicker.doneButtonColor = RandomColor;//确定按钮的颜色
     datepicker.cancelButtonColor = datepicker.doneButtonColor;
     datepicker.hideBackgroundYearLabel = YES;//隐藏背景年份文字
+   
     [datepicker show];
 }
 
@@ -194,7 +202,7 @@
         [self.tableView reloadData];
     }];
     datepicker.datePickerFont = [UIFont systemFontOfSize:17];
-    datepicker.dateLabelColor = RandomColor;//年-月-日-时-分 颜色
+    datepicker.dateUnitLabelColor = RandomColor;//年-月-日-时-分 颜色
     datepicker.datePickerColor = RandomColor;//滚轮日期颜色
     datepicker.doneButtonColor = RandomColor;//确定按钮的颜色
     datepicker.cancelButtonColor = datepicker.doneButtonColor;
@@ -210,10 +218,11 @@
         self.examples[indexPath.row].title = dateString;
         [self.tableView reloadData];
     }];
-    datepicker.dateLabelColor = RandomColor;//年-月-日-时-分 颜色
+    datepicker.dateUnitLabelColor = RandomColor;//年-月-日-时-分 颜色
     datepicker.datePickerColor = RandomColor;//滚轮日期颜色
     datepicker.doneButtonColor = RandomColor;//确定按钮的颜色
     datepicker.cancelButtonColor = datepicker.doneButtonColor;
+    datepicker.datePickerSelectColor = [UIColor orangeColor];
     [datepicker show];
 }
 
@@ -227,7 +236,7 @@
         self.examples[indexPath.row].title = dateString;
         [self.tableView reloadData];
     }];
-    datepicker.dateLabelColor = RandomColor;//年-月-日-时-分 颜色
+    datepicker.dateUnitLabelColor = RandomColor;//年-月-日-时-分 颜色
     datepicker.datePickerColor = RandomColor;//滚轮日期颜色
     datepicker.doneButtonColor = RandomColor;//确定按钮的颜色
     datepicker.yearLabelColor = [UIColor cyanColor];//大号年份字体颜色
@@ -245,7 +254,7 @@
         self.examples[indexPath.row].title = dateString;
         [self.tableView reloadData];
     }];
-    datepicker.dateLabelColor = RandomColor;//年-月-日-时-分 颜色
+    datepicker.dateUnitLabelColor = RandomColor;//年-月-日-时-分 颜色
     datepicker.datePickerColor = RandomColor;//滚轮日期颜色
     datepicker.doneButtonColor = RandomColor;//确定按钮的颜色
     datepicker.yearLabelColor = [UIColor cyanColor];//大号年份字体颜色
@@ -265,10 +274,11 @@
         [self.tableView reloadData];
         
     }];
-    datepicker.dateLabelColor = RGB(65, 188, 241);//年-月-日-时-分 颜色
+    datepicker.dateUnitLabelColor = RGB(65, 188, 241);//年-月-日-时-分 颜色
     datepicker.datePickerColor = [UIColor blackColor];//滚轮日期颜色
     datepicker.doneButtonColor = RGB(65, 188, 241);//确定按钮的颜色
-    
+    datepicker.datePickerSelectColor = [UIColor orangeColor];
+    datepicker.datePickerSelectFont = [UIFont systemFontOfSize:18];
     datepicker.pickerViewHeight = 400;
     datepicker.topViewHeight = 40;
     datepicker.pickerRowHeight = 80;

@@ -10,6 +10,10 @@
 #import "CXDatePickerStyle.h"
 
 @interface CXDatePickerView : UIView
+/**
+ *  日期单位样式
+ */
+@property (nonatomic, assign) CXDateLabelUnitStyle dateLabelUnitStyle; // 默认0.25
 
 /**
  *  弹出动画时间
@@ -61,10 +65,15 @@
  *  取消按钮字体
  */
 @property (nonatomic, strong) UIFont *cancelButtonFont;
+
 /**
- *  年-月-日-时-分 文字颜色(默认橙色)
+ *  年-月-日-时-分 单位文字颜色(默认橙色)
  */
-@property (nonatomic, strong) UIColor *dateLabelColor;
+@property (nonatomic, strong) UIColor *dateUnitLabelColor;
+/**
+ *  年-月-日-时-分 单位文字字体(默认 [UIFont systemFontOfSize:15])
+ */
+@property (nonatomic, strong) UIFont *dateUnitLabelFont;
 /**
  *  滚轮日期选中颜色(默认橙色)
  */

@@ -68,6 +68,16 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     [self.datePicker reloadAllComponents];
 }
 
+- (void)setDateUnitLabelFont:(UIFont *)dateUnitLabelFont {
+    _dateUnitLabelFont = dateUnitLabelFont;
+    [self.datePicker reloadAllComponents];
+}
+
+- (void)setDateUnitLabelColor:(UIColor *)dateUnitLabelColor {
+    _dateUnitLabelColor = dateUnitLabelColor;
+    [self.datePicker reloadAllComponents];
+}
+
 - (void)setYearLabelColor:(UIColor *)yearLabelColor {
     if (_hideBackgroundYearLabel) {
         return;
@@ -257,8 +267,6 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     self.backgroundColor = [UIColor clearColor];
     self.showAnimationTime = 0.25;
     self.shadeViewAlphaWhenShow = ShadeViewAlphaWhenShow;
-    self.datePickerSelectColor = [UIColor blackColor];
-    self.datePickerSelectFont = [UIFont systemFontOfSize:15];
     self.datePickerColor = [UIColor blackColor];
     self.datePickerFont = [UIFont systemFontOfSize:15];
     self.topViewHeight = PickerHeaderHeight;
@@ -329,21 +337,29 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
         }
     }
     
-    if (_hideDateNameLabel) {
+    if (_hideDateNameLabel || _dateLabelUnitStyle != CXDateLabelUnitFixed) {
         return;
     }
     
-    if (!_dateLabelColor) {
-        _dateLabelColor =  RGB(247, 133, 51);
+    if (!_dateUnitLabelColor) {
+        _dateUnitLabelColor =  RGB(247, 133, 51);
     }
     
-    for (int i=0; i<nameArr.count; i++) {
-        CGFloat labelX = PickerWeight/(nameArr.count*2)+18+PickerWeight/nameArr.count*i;
-        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(labelX, self.backYearView.frame.size.height/2-15/2.0, 15, 15)];
+    if (!_dateUnitLabelFont) {
+        _dateUnitLabelFont = [UIFont systemFontOfSize:15];
+    }
+    
+    for (int i = 0; i < nameArr.count; i++) {
+        CGFloat labelX = PickerWeight/(nameArr.count * 2) + 15 + PickerWeight / nameArr.count * i;
+        if (i == 0 && [self.manager.unitArray containsObject:@"年"]) {
+            labelX = PickerWeight/(nameArr.count * 2) + 20;
+        }
+        UILabel *label = [[UILabel alloc]initWithFrame:CGRectMake(labelX, self.backYearView.frame.size.height / 2 - 15 / 2.0, 15, 15)];
+        
         label.text = nameArr[i];
         label.textAlignment = NSTextAlignmentCenter;
-        label.font = [UIFont systemFontOfSize:15];
-        label.textColor = _dateLabelColor;
+        label.font = _dateUnitLabelFont;
+        label.textColor = _dateUnitLabelColor;
         label.backgroundColor = [UIColor clearColor];
         [label adjustsFontSizeToFitWidth];
         [self.backYearView addSubview:label];
@@ -534,11 +550,23 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     customLabel.textColor = self.datePickerColor;
     customLabel.font = self.datePickerFont;
     
-    if (self.manager.indexArray.count) {
+    if (!_hideDateNameLabel && _dateLabelUnitStyle == CXDateLabelTextAllUnit) {
+        customLabel.text = [NSString stringWithFormat:@"%@%@", title, self.manager.unitArray[component]];
+    }
+    
+    if (self.manager.indexArray.count && (self.datePickerSelectFont || self.datePickerSelectColor)) {
         for (int i = 0; i < self.manager.indexArray.count; i++) {
-            if (component == i && [self.manager.indexArray[i] intValue] == row) {
-                customLabel.textColor = _datePickerSelectColor;
-                customLabel.font = _datePickerSelectFont;
+            if (component == i) {
+                if (
+                    ((self.manager.datePickerStyle == CXDateMonthDayHourMinute || self.manager.datePickerStyle == CXDateMonthDay) && self.manager.monthIndex == row % 12 && component == 0) ||
+                    [self.manager.indexArray[i] intValue] == row
+                    ) {
+                    customLabel.textColor = _datePickerSelectColor;
+                    customLabel.font = _datePickerSelectFont;
+                    if (!_hideDateNameLabel && _dateLabelUnitStyle == CXDateLabelTextSelectUnit) {
+                        customLabel.text = [NSString stringWithFormat:@"%@%@", title, self.manager.unitArray[component]];
+                    }
+                }
             }
         }
     }
@@ -625,7 +653,6 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
                 self.manager.dayIndex = row;
             }
             if (component == 0 || component == 1){
-                
                 [self.manager refreshDayArray];
                 if (self.manager.dayArray.count - 1 < self.manager.dayIndex) {
                     self.manager.dayIndex = self.manager.dayArray.count - 1;
