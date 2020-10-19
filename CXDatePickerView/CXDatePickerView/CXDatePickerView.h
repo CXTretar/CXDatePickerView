@@ -66,6 +66,14 @@
  */
 @property (nonatomic, strong) UIColor *dateLabelColor;
 /**
+ *  滚轮日期选中颜色(默认橙色)
+ */
+@property (nonatomic, strong) UIColor *datePickerSelectColor;
+/**
+ *  滚轮日期选中字体
+ */
+@property (nonatomic, strong) UIFont *datePickerSelectFont;
+/**
  *  滚轮日期颜色(默认黑色)
  */
 @property (nonatomic, strong) UIColor *datePickerColor;

@@ -84,6 +84,8 @@
     }];
     datepicker.dateLabelColor = [UIColor orangeColor];//年-月-日-时-分-秒 颜色
     datepicker.datePickerColor = [UIColor blackColor];//滚轮日期颜色
+    datepicker.datePickerSelectColor = [UIColor orangeColor];
+    datepicker.datePickerSelectFont = [UIFont systemFontOfSize:18];
     datepicker.headerViewColor = [UIColor orangeColor]; // 顶部视图背景颜色
     datepicker.doneButtonColor = [UIColor whiteColor]; // 确认按钮字体颜色
     datepicker.cancelButtonColor = [UIColor whiteColor]; // 取消按钮颜色

@@ -48,6 +48,16 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     self.headerView.backgroundColor = headerViewColor;
 }
 
+- (void)setDatePickerSelectColor:(UIColor *)datePickerSelectColor {
+    _datePickerSelectColor = datePickerSelectColor;
+    [self.datePicker reloadAllComponents];
+}
+
+- (void)setDatePickerSelectFont:(UIFont *)datePickerSelectFont {
+    _datePickerSelectFont = datePickerSelectFont;
+    [self.datePicker reloadAllComponents];
+}
+
 - (void)setDatePickerColor:(UIColor *)datePickerColor {
     _datePickerColor = datePickerColor;
     [self.datePicker reloadAllComponents];
@@ -247,6 +257,8 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     self.backgroundColor = [UIColor clearColor];
     self.showAnimationTime = 0.25;
     self.shadeViewAlphaWhenShow = ShadeViewAlphaWhenShow;
+    self.datePickerSelectColor = [UIColor blackColor];
+    self.datePickerSelectFont = [UIFont systemFontOfSize:15];
     self.datePickerColor = [UIColor blackColor];
     self.datePickerFont = [UIFont systemFontOfSize:15];
     self.topViewHeight = PickerHeaderHeight;
@@ -525,8 +537,8 @@ typedef void(^doneZeroDayBlock)(NSInteger days,NSInteger hours,NSInteger minutes
     if (self.manager.indexArray.count) {
         for (int i = 0; i < self.manager.indexArray.count; i++) {
             if (component == i && [self.manager.indexArray[i] intValue] == row) {
-                customLabel.textColor = [UIColor redColor];
-                customLabel.font = [UIFont systemFontOfSize:17];
+                customLabel.textColor = _datePickerSelectColor;
+                customLabel.font = _datePickerSelectFont;
             }
         }
     }
