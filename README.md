@@ -2,11 +2,11 @@
 ![自定义日期选择器](https://github.com/CXTretar/CXDatePickerView/blob/master/screenshots/new.png)
 
 # Update【更新】
-version: 0.2.3
-- 增加了秒选项。
-- 代码逻辑分离，便于扩展。
-- 增加了标题文本框。
-- 修复了已知Bug，修改了分类。
+version: 0.2.5
+- 修复iOS 14 闪退Bug。
+- 增加了选中日期的字体和颜色自定义功能。
+- 增加了日期单位的三种显示风格。
+- 修复了日期单位文本的字体和颜色自定义功能。
 
 # Install【安装】
 在Podfile文件中添加` pod 'CXDatePickerView', '~> 0.2.2'`，并运行 `pod install`
@@ -40,19 +40,34 @@ version: 0.2.3
  *  弹出日期类型
  */
 typedef NS_ENUM(NSUInteger, CXDatePickerStyle) {
-    CXDateYearMonthDayHourMinuteSecond  = 0,//年月日时分秒
-    CXDateYearMonthDayHourMinute  ,//年月日时分
-    CXDateMonthDayHourMinute,//月日时分
-    CXDateYearMonthDay,//年月日
-    CXDateDayHourMinute, //日时分
-    CXDateYearMonth,//年月
-    CXDateMonthDay,//月日
-    CXDateHourMinuteSecond,//时分秒
-    CXDateHourMinute//时分
+    CXDateYearMonthDayHourMinuteSecond = 0, //年月日时分秒
+    CXDateYearMonthDayHourMinute,           //年月日时分
+    CXDateMonthDayHourMinute,               //月日时分
+    CXDateYearMonthDay,                     //年月日
+    CXDateDayHourMinute,                    //日时分
+    CXDateYearMonth,                        //年月
+    CXDateMonthDay,                         //月日
+    CXDateHourMinuteSecond,                 //时分秒
+    CXDateHourMinute                        //时分
 };
+
+/**
+ *  弹出日期单位显示类型
+ */
+typedef NS_ENUM(NSUInteger, CXDateLabelUnitStyle) {
+    CXDateLabelUnitFixed = 0,              // 添加固定位置的日期单位
+    CXDateLabelTextAllUnit,                // 添加所有日期的日期单位
+    CXDateLabelTextSelectUnit,             // 添加选中日期的日期单位
+};
+
 ```
 * custom【自定义属性】
 ```
+/**
+ *  日期单位样式
+ */
+@property (nonatomic, assign) CXDateLabelUnitStyle dateLabelUnitStyle; // 默认0.25
+
 /**
  *  弹出动画时间
  */
@@ -103,10 +118,23 @@ typedef NS_ENUM(NSUInteger, CXDatePickerStyle) {
  *  取消按钮字体
  */
 @property (nonatomic, strong) UIFont *cancelButtonFont;
+
 /**
- *  年-月-日-时-分 文字颜色(默认橙色)
+ *  年-月-日-时-分 单位文字颜色(默认橙色)
  */
-@property (nonatomic, strong) UIColor *dateLabelColor;
+@property (nonatomic, strong) UIColor *dateUnitLabelColor;
+/**
+ *  年-月-日-时-分 单位文字字体(默认 [UIFont systemFontOfSize:15])
+ */
+@property (nonatomic, strong) UIFont *dateUnitLabelFont;
+/**
+ *  滚轮日期选中颜色(默认橙色)
+ */
+@property (nonatomic, strong) UIColor *datePickerSelectColor;
+/**
+ *  滚轮日期选中字体
+ */
+@property (nonatomic, strong) UIFont *datePickerSelectFont;
 /**
  *  滚轮日期颜色(默认黑色)
  */
@@ -159,6 +187,7 @@ typedef NS_ENUM(NSUInteger, CXDatePickerStyle) {
  *  选择器每行高度
  */
 @property (nonatomic, assign) CGFloat pickerRowHeight; // 默认44
+
 ```
 * example【示例】 
 ```
@@ -171,7 +200,7 @@ typedef NS_ENUM(NSUInteger, CXDatePickerStyle) {
         self.examples[indexPath.row].title = dateString;
         [self.tableView reloadData];
     }];
-    datepicker.dateLabelColor = [UIColor orangeColor];//年-月-日-时-分-秒 颜色
+    datepicker.dateUnitLabelColor = [UIColor orangeColor];//年-月-日-时-分-秒 颜色
     datepicker.datePickerColor = [UIColor blackColor];//滚轮日期颜色
     datepicker.headerViewColor = [UIColor orangeColor]; // 顶部视图背景颜色
     datepicker.doneButtonColor = [UIColor whiteColor]; // 确认按钮字体颜色
@@ -180,7 +209,9 @@ typedef NS_ENUM(NSUInteger, CXDatePickerStyle) {
     datepicker.headerTitle = @"选择日期";
     datepicker.headerTitleColor = [UIColor whiteColor];
     datepicker.minLimitDate = [NSDate cx_date:@"2019-12-1 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
-    datepicker.maxLimitDate = [NSDate cx_date:@"2019-12-26 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    datepicker.maxLimitDate = [NSDate cx_date:@"2022-12-26 12:45:00" WithFormat:@"yyyy-MM-dd HH:mm:ss"];
+    datepicker.datePickerSelectColor = [UIColor orangeColor];
+    datepicker.datePickerSelectFont = [UIFont systemFontOfSize:17];
     [datepicker show];
 }
 
